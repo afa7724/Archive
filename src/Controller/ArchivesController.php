@@ -9,11 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArchivesController extends AbstractController
 {
     /**
-     * @Route("/archives", name="archives")
+     * @Route("/", name="app_archives_home_page")
      */
     public function index(): Response
     {
-        return $this->render('archives/index.html.twig', [
+        return $this->render('archives/home_page.html.twig', [
             'controller_name' => 'ArchivesController',
         ]);
     }
