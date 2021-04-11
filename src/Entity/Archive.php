@@ -1,15 +1,26 @@
 <?php
 
 namespace App\Entity;
+use DateTimeImmutable;
+use Cocur\Slugify\Slugify;
 
-use App\Repository\ArchiveRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArchiveRepository;
+use Symfony\Component\HttpFoundation\File\File;
+
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=ArchiveRepository::class)
+ * @ORM\HasLifecycleCallbacks
+ * @Vich\Uploadable
  */
 class Archive
 {
+    const TYPE =[ 'Mini Projet' => 'Mini Projet','Memoire'=>'Memoire'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -17,12 +28,26 @@ class Archive
      */
     private $id;
 
+
+     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="archive_file", fileNameProperty="rapportfilename")
+     * 
+     * @var File|null
+     */
+    private $imageFile;
+
     /**
+     * @Assert\Length(min=2,
+     * minMessage=" Saisir au moins 2 caracteres")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\Length(min=10,
+     * minMessage=" Saisir au moins 10 caracteres")
      * @ORM\Column(type="text")
      */
     private $description;
@@ -38,11 +63,13 @@ class Archive
     private $updatedAt;
 
     /**
+     * 
      * @ORM\Column(type="date")
      */
-    private $datepromotionOn;
+    private $datepromotionOn ;
 
     /**
+     *@Assert\Choice(choices=Archive::TYPE, message="Choisir un type valable.")
      * @ORM\Column(type="string", length=255)
      */
     private $type;
@@ -52,6 +79,19 @@ class Archive
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
+
+    /**
+     * @Assert\Length(min=2,
+     * minMessage=" Saisir au moins 2 caracteres")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Encadreur;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rapportfilename;
+
 
     public function getId(): ?int
     {
@@ -111,10 +151,11 @@ class Archive
         return $this->datepromotionOn;
     }
 
-    public function setDatepromotionOn(\DateTimeInterface $datepromotionOn): self
+    public function setDatepromotionOn(?\DateTimeInterface $datepromotionOn): self
     {
         $this->datepromotionOn = $datepromotionOn;
 
+        
         return $this;
     }
 
@@ -138,6 +179,78 @@ class Archive
     public function setFiliere(?Filiere $filiere): self
     {
         $this->filiere = $filiere;
+
+        return $this;
+    }
+    /**
+     * Undocumented function
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateTimesStep()
+    {
+        $this->setUpdatedAt(new DateTimeImmutable());
+        if (is_null($this->getCreatedAt())) 
+            $this->setCreatedAt(new DateTimeImmutable());
+        
+    }
+
+    public function getSlug(): string
+    {
+        return ((new Slugify())->slugify($this->title));
+    }
+
+    public function getEncadreur(): ?string
+    {
+        return $this->Encadreur;
+    }
+
+    public function setEncadreur(string $Encadreur): self
+    {
+        $this->Encadreur = $Encadreur;
+
+        return $this;
+    }
+
+   
+
+
+
+     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): Archive
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function getRapportfilename(): ?string
+    {
+        return $this->rapportfilename;
+    }
+
+    public function setRapportfilename(?string $rapportfilename): self
+    {
+        $this->rapportfilename = $rapportfilename;
 
         return $this;
     }
