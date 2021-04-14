@@ -4,22 +4,23 @@
 
 {% block body %}
 
-    <h1>Liste des archives </h1>
+    <h1 class="mb-4 text-center text-muted" >Archives enregistre </h1>
 
     {% for archive in archives %}
 
-    <div class="card bg-light mb-3 d-inline-block border-dark" style="max-width: 20rem;">
+    <div class="card bg-light mb-4 mr-4 d-inline-block border-light rouded shadow" style="max-width: 20rem;">
     
-    <div class="card-body">
-        <h4 class="card-title">{{archive.title}}</h4>
-        <h6 class="card-subtitle mb-2 text-muted">Encadre par {{archive.encadreur}}</h6>
-        <p class="card-text">{{archive.description}}</p>
-        <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link">voir plus</a>
-        <a href="#" class="card-link">Another link</a>
-        <a href="#" class="card-link">Another link</a>
-    </div>
+        <div class="card-body " style="font-family:monospace">
+            <h4 class="card-title">{{archive.title}}</h4>
+            <h6 class="card-subtitle mb-2 text-dark">Encadre par {{archive.encadreur}}</h6>
+            <p class="card-text">{{archive.description | nl2br | slice(0,10)}}.....</p>
+            <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link">voir plus</a>
+            <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">Voir le Rapport (PDF)</a>            
+        </div>
     </div>
         
     {% endfor %}
-
+    <div class="pagination">
+        {{ knp_pagination_render(archives) }}
+    </div>
 {% endblock %}

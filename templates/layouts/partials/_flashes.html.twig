@@ -1,11 +1,16 @@
-{% for type, messages in app.flashes %}
+<header>
 
-	{% for message in messages %}
+	{% for type, messages in app.flashes %}
 
-		<div class="alert alert-{{type}}" role="alert">
-			{{message}}
-		</div>
+		{% for message in messages %}
+
+			<div class="alert alert-{{type}}" role="alert">
+				{{message}}
+			</div>
+
+		{% endfor %}
 
 	{% endfor %}
 
-{% endfor %}
+
+</header>

@@ -5,26 +5,47 @@
 {% endblock %}
 {% block body %}
 
-	<div class="card bg-light mb-3" style="max-width: 20rem;">
+	<div class="row">
 
-		<div class="card-body">
-			<h4 class="card-title">{{archive.title}}</h4>
-			<h6 class="card-subtitle mb-2 text-muted">Encadre par
-				{{archive.encadreur}}</h6>
-			<p class="card-text">{{archive.description}}</p>
-			<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link">Edite</a>
-			<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
-				<input type="hidden" name="_method" value="DELETE">
-				<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
-				<button class="card-link btn btn-danger">Supprime</button>
-			</form>
-			
-			<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">View brochure (PDF)</a>
+		<div class="col-md-6 mx-auto">
 
+
+			<div class="card bg-light mb-3 d-inline-block border-light rouded shadow ">
+				<div class="card-header">
+					<h4 class="card-title text-center">
+						{{archive.title}}
+					</h4>
+				</div>
+
+				<div class="card-body">
+					
+					<h6 class="card-subtitle mb-2 pt-2 text-dark">Encadre par
+						{{archive.encadreur | nl2br}}</h6>
+					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de 
+						{{archive.datepromotionOn | date('Y')}}</p>
+					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
+					<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link">Modifié</a>
+					<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
+						<button class="card-link">Supprime</button>
+					</form>
+
+					<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">View brochure (PDF)</a>
+
+				</div>
+
+				<div class="card-footer text-muted">
+					<p>Modifie le
+						{{archive.updatedAt|date('y-M-d H:i' )}}
+					</p>
+				</div>
+
+
+			</div>
 		</div>
+
 	</div>
 
-	{# 	
-		<a href="{{path('app_archives_home_page')}}" class="btn btn-primary">Go back</a>
-		<a href="{{path('app_archives_edit',{id : archive.id})}}" class="btn btn-primary">Edite</a> #}
+
 {% endblock %}

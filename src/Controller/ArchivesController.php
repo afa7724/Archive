@@ -8,13 +8,16 @@ use App\Entity\Archive;
 use App\Form\ArchiveType;
 use App\Repository\ArchiveRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
+
+
+/**
+ * Gestion des Archives 
+ */
 class ArchivesController extends AbstractController
 {
     private $manager;
@@ -30,9 +33,13 @@ class ArchivesController extends AbstractController
      * @Route("/", name="app_archives_home_page")
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginatorInterface,Request $request): Response
     {
-        $archives = $this->archiveRepository->findAll();
+        $archives =  $paginatorInterface->paginate(
+            $this->archiveRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            2 /*limit per page*/
+        );
 
         return $this->render('archives/home_page.html.twig', compact('archives'));
     }
@@ -49,23 +56,17 @@ class ArchivesController extends AbstractController
     }
 
     /**
-     * Permet la creation d'une archive et sa modification
-     *
+     * Permet l a modification  d'une archive 
+     * @param Archive $archive
+     * @param Request $request 
      *@Route("/archives/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})
-     * @return void
+     * @return Response
      */
-    public function edite(Archive $archive , Request $request)
+    public function edite(Archive $archive , Request $request): Response
     {
-       
-
         $form = $this->createForm(ArchiveType::class, $archive);
-        
         $form->handleRequest($request);
-        
-        
-        
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $this->manager->persist($archive);
             $this->manager->flush();
             $type="success";
@@ -80,51 +81,24 @@ class ArchivesController extends AbstractController
     }
 
     /**
+     * Cette function permet de cree une archive 
+     * @return Response
+     * @param Request $request 
      *@Route("/archives/archive/new",name="app_archives_new")
      */
-    public function new(Request $request, SluggerInterface $slugger)
+    public function new(Request $request): Response
     {
         $archive = new Archive();
         $form = $this->createForm(archiveType::class, $archive);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // /** @var UploadedFile $brochureFile */
-            // $brochureFile = $form->get('rapportfilename')->getData();
-
-            // // this condition is needed because the 'brochure' field is not required
-            // // so the PDF file must be processed only when a file is uploaded
-            // if ($brochureFile) {
-            //     $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-            //     // this is needed to safely include the file name as part of the URL
-            //     $safeFilename = $slugger->slug($originalFilename);
-            //     $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-            //     // Move the file to the directory where brochures are stored
-            //     try {
-            //         $brochureFile->move(
-            //             $this->getParameter('brochures_directory'),
-            //             $newFilename
-            //         );
-            //     } catch (FileException $e) {
-            //         // ... handle exception if something happens during file upload
-            //     }
-
-            //     // updates the 'brochureFilename' property to store the PDF file name
-            //     // instead of its contents
-            //    $archive->setrapportfilename($newFilename);
-            // }
-
-            // ... persist the $archive variable or any other work
-
             $this->manager->persist($archive);
             $this->manager->flush();
             $type="success";
             $this->addFlash($type,'Archive creé');
-
             return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(),'id' => $archive->getId()]);
         }
-
         return $this->render('archives/_new.html.twig', [
             'form' => $form->createView(),
             'archive' => $archive,
@@ -133,21 +107,20 @@ class ArchivesController extends AbstractController
     }
     
     /**
+     * Permet de supprime une archive 
+     * @param Archive $archive
+     * @param Reqest $request
+     * @return Response
      * @Route("/archives/archive/delete/{slug}-{id}", name="app_archives_delete",methods="delete",requirements={"slug":"[a-z0-9\-]*"})
-     * 
      */
 
-    public function delete(archive $archive, Request $request)
+    public function delete(archive $archive, Request $request): Response
     {
-        
         if ($this->isCsrfTokenValid('delete' . $archive->getId(), $request->get('_token'))) {
-
             $this->manager->remove($archive);
             $this->manager->flush();
             $this->addFlash('success', 'suppression effectuer ');
         }
-
-
         return  $this->redirectToRoute("app_archives_home_page");
     }
 
