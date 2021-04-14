@@ -21,7 +21,7 @@ class ArchiveType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Title',
+                'label' => 'Titre',
                 'attr' => ['placehorlder' => 'Le nom de l\'archive']
             ])
             ->add('description', null, [
@@ -42,11 +42,12 @@ class ArchiveType extends AbstractType
                 'type',
                 ChoiceType::class,
                 [
-                    'choices'  => Archive::TYPE
+                    'choices'  => Archive::TYPE,
+                    'label' => 'Type d\'archive'
                 ]
             )
             ->add('imageFile', FileType::class, [
-                'label' => 'Rapport du projet (PDF file)',
+                'label' => 'Rapport du projet (Fichier PDF)',
                  'attr' => ['placeholder'=> 'Veuillez selectionne un fichier PDF'],   
                 // unmapped means that this field is not associated to any entity property
                 // 'mapped' => false,
@@ -64,7 +65,7 @@ class ArchiveType extends AbstractType
                             'application/pdf',
                             'application/x-pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide',
                     ])
                 ],
             ])
@@ -73,7 +74,8 @@ class ArchiveType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Filiere::class,
-                    'choice_label' => 'name'
+                    'choice_label' => 'name',
+                    'label' => 'Filière'
                 ]
             );
     }

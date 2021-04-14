@@ -1,8 +1,8 @@
  {% if edit %}
     
-        <h1>Creé une nouvelle archive</h1>
+        <h1>Créer une nouvelle archive</h1>
     {% else %}
-        <h1>Modifié une archive existente</h1>    
+        <h1>Modifier une archive existante</h1>    
 
     {% endif %}
 
@@ -32,7 +32,7 @@
             {{ form_row(form.description)}}
         </div>
         {% if not edit %}
-            <button class="btn btn-primary btn-block" type="submite">Enregistre les modifications</button>
+            <button class="btn btn-primary btn-block" type="submite">Enregistrer les modifications</button>
         {% else %}
             <button class="btn btn-primary btn-block" type="submite">Ajouter</button>	
         {% endif %}

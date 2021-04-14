@@ -40,7 +40,11 @@ class ArchivesController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             2 /*limit per page*/
         );
-
+        $archives->setCustomParameters([
+            'align' => 'center',
+            'size' => 'medium',
+            'rounded' => true,
+        ]);
         return $this->render('archives/home_page.html.twig', compact('archives'));
     }
 
@@ -70,7 +74,7 @@ class ArchivesController extends AbstractController
             $this->manager->persist($archive);
             $this->manager->flush();
             $type="success";
-            $this->addFlash($type,'Archive Modifieé');
+            $this->addFlash($type,'Archive Modifier');
             return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(),'id' => $archive->getId()]);
         }
         return $this->render('archives/_new.html.twig', [
@@ -96,7 +100,7 @@ class ArchivesController extends AbstractController
             $this->manager->persist($archive);
             $this->manager->flush();
             $type="success";
-            $this->addFlash($type,'Archive creé');
+            $this->addFlash($type,'Archive créer');
             return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(),'id' => $archive->getId()]);
         }
         return $this->render('archives/_new.html.twig', [

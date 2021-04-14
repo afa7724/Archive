@@ -1,7 +1,7 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block title  %}
-	{{archive.title}}
+	{{ parent()}} | {{archive.title}} 
 {% endblock %}
 {% block body %}
 
@@ -19,7 +19,7 @@
 
 				<div class="card-body">
 					
-					<h6 class="card-subtitle mb-2 pt-2 text-dark">Encadre par
+					<h6 class="card-subtitle mb-2 pt-2 text-success">Encadre par
 						{{archive.encadreur | nl2br}}</h6>
 					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de 
 						{{archive.datepromotionOn | date('Y')}}</p>
@@ -28,7 +28,7 @@
 					<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
-						<button class="card-link">Supprime</button>
+						<button class="card-link">Supprimer</button>
 					</form>
 
 					<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">View brochure (PDF)</a>

@@ -3,7 +3,7 @@
 {% block title %} 
 
  {% if not edit %}
-			 Modification de l'archive
+			 {{ parent()}} | Modification de l'archive
             {{archive.title}}
         {% else %}
             New Archive
