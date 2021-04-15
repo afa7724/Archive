@@ -30,7 +30,7 @@ class ArchivesController extends AbstractController
 
     /**
      * Permet de liste tous les archives du site
-     * @Route("/", name="app_archives_home_page")
+     * @Route("/archives", name="app_archives_home_page")
      * @return Response
      */
     public function index(PaginatorInterface $paginatorInterface,Request $request): Response
@@ -50,7 +50,7 @@ class ArchivesController extends AbstractController
 
     /**
      * Permet de voir en detail une archive 
-     *@Route("/archive/{slug}-{id}",name="app_archives_show",requirements={"slug":"[a-z0-9\-]*"})
+     *@Route("/archives/archive/{slug}-{id}",name="app_archives_show",requirements={"slug":"[a-z0-9\-]*"})
      * @param Archive $archive
      * @return Response
      */
@@ -63,7 +63,7 @@ class ArchivesController extends AbstractController
      * Permet l a modification  d'une archive 
      * @param Archive $archive
      * @param Request $request 
-     *@Route("/archives/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})
+     *@Route("/archives/archive/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})
      * @return Response
      */
     public function edite(Archive $archive , Request $request): Response
