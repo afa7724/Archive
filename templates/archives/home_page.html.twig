@@ -14,8 +14,12 @@
             <h4 class="card-title">{{archive.title}}</h4>
             <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
             <p class="card-text">{{archive.description | nl2br | slice(0,100)}}.....</p>
-            <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link">voir plus</a>
-            <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">Voir le Rapport (PDF)</a>            
+            <span>
+            <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>
+            </span>
+           <span>
+            <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-success btn-sm">Voir le Rapport (PDF)</a>            
+           </span>
         </div>
     </div>
         
