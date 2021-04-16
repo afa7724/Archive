@@ -71,7 +71,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('L\'e-mail ou le mot de passe est incorrect.');
         }
 
         return $user;
@@ -104,4 +104,10 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
+    public function supportsRememberMe()
+    {
+        return true;
+    }
+    
 }

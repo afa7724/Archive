@@ -1,10 +1,10 @@
 <header>
 
-	{% for type, messages in app.flashes %}
+	{% for type, messages in app.flashes(['success','info','danger']) %}
 
 		{% for message in messages %}
 
-			<div class="alert alert-{{type}}" role="alert">
+			<div class="alert alert-{{type}} rounded text-center" role="alert">
 				{{message}}
 			</div>
 

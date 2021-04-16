@@ -5,6 +5,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\EtudiantRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity
@@ -13,15 +14,11 @@ use App\Repository\EtudiantRepository;
  */
 class Etudiant extends User
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=1 , max=5)
      */
     private $niveau;
 
@@ -73,4 +70,9 @@ class Etudiant extends User
             $this->setCreatedAt(new DateTimeImmutable());
         
     }
+
+   
+
+   
+
 }

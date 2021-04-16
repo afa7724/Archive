@@ -22,9 +22,13 @@ security:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
             logout:
-                path: app_logout
+                path: app_security_logout
                 # where to redirect after logout
                 target: app_security_login
+            remember_me:
+                secret: '%kernel.secret%'
+                
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -34,6 +38,6 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/archives, roles: ROLE_USER }
+    # access_control:
+    #      - { path: ^/admin, roles: ROLE_ADMIN }
+    #      - { path: ^/archives, roles: ROLE_USER }

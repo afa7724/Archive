@@ -68,6 +68,7 @@ class ArchivesController extends AbstractController
      */
     public function edite(Archive $archive , Request $request): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_EDITE_ARCHIVE");
         $form = $this->createForm(ArchiveType::class, $archive);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,6 +93,7 @@ class ArchivesController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_NEW_ARCHIVE");
         $archive = new Archive();
         $form = $this->createForm(archiveType::class, $archive);
         $form->handleRequest($request);
@@ -120,6 +122,7 @@ class ArchivesController extends AbstractController
 
     public function delete(archive $archive, Request $request): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_DELETE_ARCHIVE");
         if ($this->isCsrfTokenValid('delete' . $archive->getId(), $request->get('_token'))) {
             $this->manager->remove($archive);
             $this->manager->flush();

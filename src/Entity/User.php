@@ -2,64 +2,109 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
+ * @Entity
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"etudiant" = "Etudiant", "user" = "User", "professeur" = "Professeur"})
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet e-mail")
  */
 class User implements UserInterface
 {
+   public function __construct()
+   {
+       $this->isVerified=false;
+   }
+   
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    protected $roles = ["ROLE_UNACTIVATED"];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     * pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/",
+     * htmlPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$",
+     * match=true,
+     * message="Respectez le message d'aide ci-dessous"
+     * )
+     * @Assert\Length(max=4096)
      */
-    private $password;
+    protected $password;
+
+    /**
+     *@Assert\EqualTo(propertyPath="password",message="Mot de passe Different")
+     *@Assert\NotBlank
+     */
+    protected $confirmepassword;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     * pattern="/\d/",
+     * match=false,
+     * message="Votre nom ne peut pas contenir un nombre"
+     * )
      */
-    private $firstname;
+    protected $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     * pattern="/\d/",
+     * match=false,
+     * message="Votre nom ne peut pas contenir un nombre")
      */
-    private $lastname;
+    protected $lastname;
 
     
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
+
+  
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $activationToken;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified;
+    private $isVerified = false;
 
     public function getId(): ?int
     {
@@ -94,9 +139,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        
         return array_unique($roles);
     }
 
@@ -118,6 +161,26 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+      /**
+     *
+     * @return string
+     */
+    public function getConfirmepassword(): string
+    {
+        return (string) $this->confirmepassword;
+    }
+
+    /**
+     *
+     * @return self
+     */
+    public function setConfirmepassword(string $confirmepassword)
+    {
+        $this->confirmepassword = $confirmepassword;
 
         return $this;
     }
@@ -191,7 +254,20 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsVerified(): ?bool
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken(?string $activationToken): self
+    {
+        $this->activationToken = $activationToken;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
     {
         return $this->isVerified;
     }

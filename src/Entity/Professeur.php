@@ -13,12 +13,7 @@ use App\Repository\ProfesseurRepository;
  */
 class Professeur extends User
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+   
 
     public function getId(): ?int
     {
