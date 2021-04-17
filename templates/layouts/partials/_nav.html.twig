@@ -20,8 +20,12 @@
 				{% endif %}
 				{% if app.user  %}
 					<li class="nav-item">
-						<a class="nav-link " href="{{path('app_security_logout')}}">Se déconnecter<i class="pl-2 fas fa-sign-out-alt"></i></a>
+						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fas fa-sign-out-alt"></i></a>
 					</li>
+
+					<form id="js-logout-form" action="{{path('app_security_logout')}}" method="POST">
+					<input type="hidden" name="_csrf_token_" value="{{csrf_token('_logout_')}}">
+					</form>
 				{% else %}
 					
 						
