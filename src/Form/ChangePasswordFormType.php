@@ -10,11 +10,28 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class ChangePasswordFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if ($options['current_password_is_required']) {
+            $builder
+                ->add('currentPassword', PasswordType::class, [
+                    'label' => 'Mot de passe actuel',
+                    'attr' => [
+                        'autocomplete' => 'off'
+                    ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez saisir votre mot de passe actuel.',
+                        ]),
+                        new UserPassword(['message' => 'Mot de passe actuel non valide.']),
+                    ]
+                ]);
+        }
+       
         $builder
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -35,7 +52,7 @@ class ChangePasswordFormType extends AbstractType
                         ]),
                     ],
                     'label' => 'Nouveau mot de passe',
-                    'help'=>'Votre mot de passe doit comporter au moins 8 caractères, 
+                    'help' => 'Votre mot de passe doit comporter au moins 8 caractères, 
                     contenir au moins un chiffres, une lettre en masjucule et minuscule, 
                     et peux contenir des symboles.',
                 ],
@@ -46,13 +63,16 @@ class ChangePasswordFormType extends AbstractType
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                
-            ])
-        ;
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'current_password_is_required' => false
+        ]);
+
+        $resolver->setAllowedTypes('current_password_is_required', 'bool');
     }
 }

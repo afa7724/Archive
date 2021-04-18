@@ -15,7 +15,7 @@
 				{% endif %}
 				{% if app.user %}
 					<li class="nav-item ml-2">
-						<a class="nav-link" href="#">Compte<i class="pl-2 fas fa-user-circle"></i></a>
+						<a class="nav-link {{ app.request.get('_route')== 'app_account' ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="pl-2 fas fa-user-circle"></i></a>
 					</li>	
 				{% endif %}
 				{% if app.user  %}

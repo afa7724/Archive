@@ -95,11 +95,7 @@ class User implements UserInterface
      */
     protected $updatedAt;
 
-  
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $activationToken;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -202,7 +198,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        //$this->password = null;
     }
 
     public function getFirstname(): ?string
@@ -255,17 +251,7 @@ class User implements UserInterface
     }
 
 
-    public function getActivationToken(): ?string
-    {
-        return $this->activationToken;
-    }
-
-    public function setActivationToken(?string $activationToken): self
-    {
-        $this->activationToken = $activationToken;
-
-        return $this;
-    }
+   
 
     public function isVerified(): bool
     {
@@ -277,5 +263,15 @@ class User implements UserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
+    }
+
+    public function getGravatarUrl(?int $size = 100)
+    {
+        return sprintf('https://www.gravatar.com/avatar/%s?s=%d', md5(strtolower(trim($this->getEmail()))), $size);
     }
 }
