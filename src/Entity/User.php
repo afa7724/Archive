@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @Entity
  * @InheritanceType("JOINED")
@@ -21,11 +22,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-   public function __construct()
-   {
-       $this->isVerified=false;
-   }
-   
+    public function __construct()
+    {
+        $this->isVerified = false;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -35,6 +36,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Entrez votre adresse email s'il vous plait")
+     * @Assert\Email(message="S'il vous plaît, mettez une adresse email valide") 
      */
     protected $email;
 
@@ -53,18 +56,19 @@ class User implements UserInterface
      * message="Respectez le message d'aide ci-dessous"
      * )
      * @Assert\Length(max=4096)
+     * @Assert\NotBlank("Entrez votre mot de passe  s'il vous plait")
      */
     protected $password;
 
     /**
      *@Assert\EqualTo(propertyPath="password",message="Mot de passe Different")
-     *@Assert\NotBlank
+     *@Assert\NotBlank("retapez votre mot de passe s'il vous plait")
      */
     protected $confirmepassword;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Entrez votre prénom s'il vous plait")
      * @Assert\Regex(
      * pattern="/\d/",
      * match=false,
@@ -75,7 +79,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Entrez votre nom s'il vous plait")
      * @Assert\Regex(
      * pattern="/\d/",
      * match=false,
@@ -83,7 +87,7 @@ class User implements UserInterface
      */
     protected $lastname;
 
-    
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -135,7 +139,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles = ["ROLE_USER"];
+        $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
 
@@ -161,7 +165,7 @@ class User implements UserInterface
         return $this;
     }
 
-      /**
+    /**
      *
      * @return string
      */
@@ -225,7 +229,7 @@ class User implements UserInterface
         return $this;
     }
 
-    
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -251,7 +255,7 @@ class User implements UserInterface
     }
 
 
-   
+
 
     public function isVerified(): bool
     {

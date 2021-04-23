@@ -19,14 +19,12 @@ class Etudiant extends User
     /**
      * @ORM\Column(type="integer")
      * @Assert\Range(min=1 , max=5)
+     * @Assert\NotBlank(message="Entrez votre niveau s'il vous plait")
+     * @Assert\NotBlank
      */
     private $niveau;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="etudiants")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $filiere;
+  
 
     public function getId(): ?int
     {
@@ -45,17 +43,7 @@ class Etudiant extends User
         return $this;
     }
 
-    public function getFiliere(): ?Filiere
-    {
-        return $this->filiere;
-    }
-
-    public function setFiliere(?Filiere $filiere): self
-    {
-        $this->filiere = $filiere;
-
-        return $this;
-    }
+    
 
     /**
      * Undocumented function
