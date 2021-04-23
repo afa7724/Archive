@@ -49,21 +49,22 @@ class RequestListener
         $currentRoute = $event->getRequest()->attributes->get('_route');
         $token = $this->authorizationChecker->getToken();
         $user = $token ? $token->getUser() : null;
-
+        
         if ($user instanceof Etudiant || $user instanceof Professeur) {
-            $role = in_array('ROLE_UNACTIVATED', $user->getRoles());
+            $active =  $user->isVerified();
+            
             // $role2 = in_array('ROLE_BLOQUE', $user->getRoles());
             // Redirige vers soit le deconnecte activation force 
-            if ($role && !$this->isAuthenticatedUser($currentRoute)) {
-                $event->setResponse(new RedirectResponse($this->router->generate('app_security_activationforce')));
+            if (!$active && !$this->isAuthenticatedUser($currentRoute)) {
+               
+                $event->setResponse(new RedirectResponse($this->router->generate('app_registration_check_email')));
             }
-            // if ($role2 && !$this->isAuthenticatedUserB($currentRoute) ) {
-            //     $event->setResponse(new RedirectResponse($this->router->generate('bloquerforce')));
-            // }
             //Rediger vers le home si deja active
-            if (!$role  && $this->isConnectUser($currentRoute)) {
-                $event->setResponse(new RedirectResponse($this->router->generate('app_achives_home_page')));
+             if ($active && $this->isConnectUser($currentRoute) ) {
+               
+                $event->setResponse(new RedirectResponse($this->router->generate('app_archives_home_page')));
             }
+            
         }    
         
     }
@@ -72,24 +73,16 @@ class RequestListener
     {
         return in_array(
             $currentRoute,
-            ['app_security_logout', 'app_security_activationforce', 'app_security_activation']
+            ['app_security_logout', 'app_verify_email', 'app_registration_check_email']
         );
     }
 
-    private function isAuthenticatedUserB($currentRoute)
-    {
-        return in_array(
-            $currentRoute,
-            ['app_logout', 'bloquerforce']
-        );
-    }
     
-
     private function isConnectUser($currentRoute)
     {
         return in_array(
             $currentRoute,
-            ['app_security_register', 'app_security_activationforce','app_security_activation','bloquerforce']
+            ['app_register', 'app_verify_email', 'app_registration_check_email','app_security_login']
         );
     }
 }

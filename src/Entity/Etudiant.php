@@ -43,24 +43,15 @@ class Etudiant extends User
         return $this;
     }
 
-    
-
     /**
-     * Undocumented function
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * @see UserInterface
      */
-    public function updateTimesStep()
+    public function getRoles(): array
     {
-        $this->setUpdatedAt(new DateTimeImmutable());
-        if (is_null($this->getCreatedAt())) 
-            $this->setCreatedAt(new DateTimeImmutable());
-        
+        $roles = $this->roles;
+       $roles[]= 'ROLE_ETUDIANT';
+        return array_unique($roles);
     }
 
-   
-
-   
 
 }

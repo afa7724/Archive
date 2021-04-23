@@ -36,9 +36,9 @@
 						</form>
 					{% endif %}
 					
-					{# {% if is_granted("ROLE_DOWNLOAD_FILE") %} #}
+					{% if is_granted("ROLE_DOWNLOAD_FILE") %}
 						<p class="text-center"> <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link">View brochure (PDF)</a> </p>
-					{# {% endif %} #}
+					{% endif %}
 
 
 				</div>

@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @Entity
@@ -145,7 +146,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+       $roles[] = '';
         return array_unique($roles);
     }
 
@@ -295,5 +296,20 @@ class User implements UserInterface
         $this->filiere = $filiere;
 
         return $this;
+    }
+
+    
+    /**
+     * ?ettre a jour les heures
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateTimesStep()
+    {
+        $this->setUpdatedAt(new DateTimeImmutable());
+        if (is_null($this->getCreatedAt())) 
+            $this->setCreatedAt(new DateTimeImmutable());
+        
     }
 }

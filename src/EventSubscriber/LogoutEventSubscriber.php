@@ -23,7 +23,7 @@ class LogoutEventSubscriber implements EventSubscriberInterface
             'Logged out successfully!'
         );
         
-        $event->setResponse(new RedirectResponse($this->urlGenerator->generate('app_home_page')));
+        $event->setResponse(new RedirectResponse($this->urlGenerator->generate('app_security_login')));
     }
 
     public static function getSubscribedEvents()

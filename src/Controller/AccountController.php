@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("app/user/account")
+ * @IsGranted("ROLE_USER")
  */
 class AccountController extends AbstractController
 {

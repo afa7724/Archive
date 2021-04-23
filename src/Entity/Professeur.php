@@ -21,6 +21,16 @@ class Professeur extends User
     }
 
     /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[]= 'ROLE_PROFESSAIRE';
+        return array_unique($roles);
+    }
+
+    /**
      * Undocumented function
      *
      * @ORM\PrePersist

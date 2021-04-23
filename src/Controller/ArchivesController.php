@@ -12,11 +12,13 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
  * Gestion des Archives 
+ * @IsGranted("ROLE_USER")
  */
 class ArchivesController extends AbstractController
 {
@@ -65,6 +67,7 @@ class ArchivesController extends AbstractController
      * @param Request $request 
      *@Route("/archives/archive/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})
      * @return Response
+     * @IsGranted("ROLE_EDITE_ARCHIVE")
      */
     public function edite(Archive $archive , Request $request): Response
     {
@@ -89,6 +92,7 @@ class ArchivesController extends AbstractController
      * Cette function permet de cree une archive 
      * @return Response
      * @param Request $request 
+     * @IsGranted("ROLE_NEW_ARCHIVE")
      *@Route("/archives/archive/new",name="app_archives_new")
      */
     public function new(Request $request): Response
@@ -117,6 +121,7 @@ class ArchivesController extends AbstractController
      * @param Archive $archive
      * @param Reqest $request
      * @return Response
+     * @IsGranted("ROLE_DELETE_ARCHIVE")
      * @Route("/archives/archive/delete/{slug}-{id}", name="app_archives_delete",methods="delete",requirements={"slug":"[a-z0-9\-]*"})
      */
 

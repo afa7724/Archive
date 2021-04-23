@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+
 use App\Entity\Etudiant;
 use App\Form\EtudiantType;
 use App\Security\EmailVerifier;
-use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Security\AppCustomAuthenticator;
@@ -33,10 +32,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppCustomAuthenticator $authenticator): Response
     {
-        if ($this->getUser()) {
-            $this->addFlash('danger','Déjà connecté');
-            return $this->redirectToRoute('app_archives_home_page');
-        }
+        
         $user = new  Etudiant();
         $form = $this->createForm(EtudiantType::class, $user);
         $form->handleRequest($request);
@@ -69,13 +65,13 @@ class RegistrationController extends AbstractController
                     ])
             );
             // do anything else you need here, like send an email
-
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
             );
+            return $this->redirectToRoute("app_registration_check_email");
         }
 
         return $this->render('registration/register.html.twig', [
@@ -114,5 +110,15 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Votre adresse e-mail a été vérifiée.');
 
         return $this->redirectToRoute('app_archives_home_page');
+    }
+    /**
+     * Permet d'affiche le message d'activation
+     * @Route("app/user/registration/check_email",name="app_registration_check_email")
+     * @return Response
+     */
+    public function checkEmail():Response
+    {
+       
+        return $this->render('emails/registration/check_email.html.twig');
     }
 }
