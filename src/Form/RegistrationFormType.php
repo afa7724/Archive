@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Filiere;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -51,6 +53,14 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('confirmepassword', PasswordType::class, 
                 [ 'help'=>'Retapez votre mot de passe','label' => 'Confirmer le mot de passe ' ])
+            
+            ->add('filiere',EntityType::class,
+                [
+                    'class' => Filiere::class,
+                    'choice_label' => 'name',
+                    'label' => 'Filière',
+                    
+                ])
         ;
     }
 

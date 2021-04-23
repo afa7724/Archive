@@ -20,7 +20,7 @@ class Etudiant extends User
      * @ORM\Column(type="integer")
      * @Assert\Range(min=1 , max=5)
      * @Assert\NotBlank(message="Entrez votre niveau s'il vous plait")
-     * @Assert\NotBlank
+     * 
      */
     private $niveau;
 

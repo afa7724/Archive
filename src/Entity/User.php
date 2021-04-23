@@ -56,13 +56,13 @@ class User implements UserInterface
      * message="Respectez le message d'aide ci-dessous"
      * )
      * @Assert\Length(max=4096)
-     * @Assert\NotBlank("Entrez votre mot de passe  s'il vous plait")
+     * @Assert\NotBlank(message="Entrez votre mot de passe  s'il vous plait")
      */
     protected $password;
 
     /**
      *@Assert\EqualTo(propertyPath="password",message="Mot de passe Different")
-     *@Assert\NotBlank("retapez votre mot de passe s'il vous plait")
+     *@Assert\NotBlank(message="retapez votre mot de passe s'il vous plait")
      */
     protected $confirmepassword;
 
@@ -105,6 +105,12 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $filiere;
 
     public function getId(): ?int
     {
@@ -277,5 +283,17 @@ class User implements UserInterface
     public function getGravatarUrl(?int $size = 100)
     {
         return sprintf('https://www.gravatar.com/avatar/%s?s=%d', md5(strtolower(trim($this->getEmail()))), $size);
+    }
+
+    public function getFiliere(): ?Filiere
+    {
+        return $this->filiere;
+    }
+
+    public function setFiliere(?Filiere $filiere): self
+    {
+        $this->filiere = $filiere;
+
+        return $this;
     }
 }
