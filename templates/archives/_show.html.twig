@@ -41,8 +41,8 @@
 				</div>
 
 				<div class="card-footer text-muted">
-					<p>Modifie le
-						{{archive.updatedAt|date('y-M-d H:i' )}}
+					<p>Modifie
+						<time datetime="{{archive.updatedAt|date('y-M-d H:i' )}}"> {{archive.updatedAt|ago}}</time>
 					</p>
 				</div>
 
