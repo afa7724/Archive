@@ -31,14 +31,8 @@ class ArchivesController extends AbstractController
     }
 
     /**
-<<<<<<< HEAD
-     *Fonction qui renvoie la page d'acceuil
-     *  Permet de liste tous les archives du site
-     * @Route("/", name="app_archives_home_page")
-=======
      * Permet de liste tous les archives du site
      * @Route("/archives", name="app_archives_home_page")
->>>>>>> dev-utilisateur-interface
      * @return Response
      */
     public function index(PaginatorInterface $paginatorInterface,Request $request): Response
