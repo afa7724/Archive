@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
      brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
+     app.mail_from_name: 'Archive Mail Bot'
+     app.mail_from_address: 'noreply@archive.com'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -27,7 +29,9 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
         
-   
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }  
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

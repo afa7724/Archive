@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title parent() ~ ' | Page de connexion '%}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h1 class="mt-5 mb-5 text-center ">Veuillez vous connecter</h1>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger rouded mb-3" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="checkbox mb-3">
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                        <label for="remember_me">Rester connecté</label>
+                    </div>
+                    <a href="{{path('app_forgot_password_request')}}">Mot de passe oublié?</a>
+                
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button class="btn btn-block btn-primary" type="submit">
+                   S'identifier
+                </button>
+
+                <p class="mt-5 mb-3 text-center text-muted">Pas encore inscrit? <a href="{{path('app_register')}}">Créer un compte</a></p>
+            </form>
+            
+
+        </div>
+    </div>
+
+{% endblock %}

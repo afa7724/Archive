@@ -39,10 +39,19 @@ class Filiere
      */
     private $archives;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="filiere")
+     */
+    private $users;
+
     public function __construct()
     {
-        $this->archives = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
+   
+
+    
 
     public function getId(): ?int
     {
@@ -114,4 +123,36 @@ class Filiere
 
         return $this;
     }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getFiliere() === $this) {
+                $user->setFiliere(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title  'Nouveau Compte Client' %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+        
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+
+            <h1 class="my-5 text-center">Créer un compte</h1>
+
+            {{ form_start(registrationForm) }}
+                <div class="row align-items-end">
+                    <div class="col-md-6">{{ form_row(registrationForm.foo.firstname)}}</div>
+                    <div class="col-md-6">{{ form_row(registrationForm.foo.lastname)}}</div>
+                </div>
+                
+                <div class="row align-items-end">
+                    <div class="col-md-6"> {{ form_row(registrationForm.foo.filiere)}} </div>
+                    <div class="col-md-6"> {{ form_row(registrationForm.niveau)}} </div>
+                </div>
+               
+
+                {{ form_row(registrationForm.foo.email) }}
+                {{ form_row(registrationForm.foo.password) }}
+
+                {{ form_row(registrationForm.foo.confirmepassword)}}
+
+                {{ form_row(registrationForm.foo.agreeTerms) }}
+
+                <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+            <p class="mt-5 mb-3 text-center text-muted">
+            
+                Vous avez déjà un compte? <a href="{{path('app_security_login')}}">s'identifier</a>
+
+            </p>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
