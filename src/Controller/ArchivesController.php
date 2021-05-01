@@ -29,16 +29,18 @@ class ArchivesController extends AbstractController
     }
 
     /**
-     * Permet de liste tous les archives du site
+     *Fonction qui renvoie la page d'acceuil
+     *  Permet de liste tous les archives du site
      * @Route("/", name="app_archives_home_page")
      * @return Response
      */
     public function index(PaginatorInterface $paginatorInterface,Request $request): Response
     {
+        //Paginee la page d'acceuil
         $archives =  $paginatorInterface->paginate(
             $this->archiveRepository->findAll(),
             $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
+            2 /*limit de page*/
         );
         $archives->setCustomParameters([
             'align' => 'center',
@@ -49,6 +51,7 @@ class ArchivesController extends AbstractController
     }
 
     /**
+     * le button voir plus
      * Permet de voir en detail une archive 
      *@Route("/archive/{slug}-{id}",name="app_archives_show",requirements={"slug":"[a-z0-9\-]*"})
      * @param Archive $archive
@@ -60,7 +63,7 @@ class ArchivesController extends AbstractController
     }
 
     /**
-     * Permet l a modification  d'une archive 
+     * Permet la modification  d'une archive 
      * @param Archive $archive
      * @param Request $request 
      *@Route("/archives/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})

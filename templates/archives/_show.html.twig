@@ -21,6 +21,7 @@
 					
 					<h6 class="card-subtitle mb-2 pt-2 text-success">Encadre par
 						{{archive.encadreur | nl2br}}</h6>
+					<h6 class="card-subtitle mb-2 pt-2 text-info">Type d'archive: {{archive.type}}</h6>
 					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de 
 						{{archive.datepromotionOn | date('Y')}}</p>
 					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
@@ -35,7 +36,7 @@
 						</span>
 					</form>
 					<span class="ml-5">
-					<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-primary">View brochure (PDF)</a>
+					<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-primary">Télécharger (PDF)</a>
 					</span>
 
 				</div>

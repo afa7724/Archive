@@ -1,3 +1,7 @@
+
+
+
+
 {% extends 'layouts/base.html.twig' %}
 
 {% block title  parent() ~ ' | Page d\'accueil '  %}
@@ -13,7 +17,8 @@
         <div class="card-body " style="font-family:monospace">
             <h4 class="card-title">{{archive.title}}</h4>
             <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
-            <p class="card-text">{{archive.description | nl2br | slice(0,100)}}.....</p>
+            <h6 class="card-subtitle mb-2 text-info">Type d'archive: {{archive.type}}</h6>
+            <p class="card-text">{{archive.description | nl2br | slice(0,80)}}.....</p>
             <span>
             <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>
             </span>
