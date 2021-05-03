@@ -90,6 +90,12 @@ class Archive
      */
     private $rapportfilename;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="archives")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
 
     public function getId(): ?int
     {
@@ -249,6 +255,18 @@ class Archive
     public function setRapportfilename(?string $rapportfilename): self
     {
         $this->rapportfilename = $rapportfilename;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

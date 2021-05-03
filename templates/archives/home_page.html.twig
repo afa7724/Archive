@@ -4,7 +4,7 @@
 
 {% extends 'layouts/base.html.twig' %}
 
-{% block title  parent() ~ ' | Page d\'accueil '  %}
+{% block title  parent() ~ ' | Page des archives '  %}
 
 {% block body %}
 
@@ -12,10 +12,10 @@
 
     {% for archive in archives %}
 
-    <div class="card bg-light mb-4 mr-4 d-inline-block border-light rouded shadow" style="max-width: 20rem;">
+    <div class="card bg-secondary mb-4 mr-4 d-inline-block border-dark rouded shadow" style="max-width: 20rem;">
     
         <div class="card-body " style="font-family:monospace">
-            <h4 class="card-title">{{archive.title}}</h4>
+            <h4 class="card-title text-info text-uppercase">{{archive.title}}</h4>
             <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
             <h6 class="card-subtitle mb-2 text-info">Type d'archive: {{archive.type}}</h6>
             <p class="card-text">{{archive.description | nl2br | slice(0,80)}}.....</p>

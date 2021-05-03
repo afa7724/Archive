@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light mb-4" aria-label="Third navbar example">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4" aria-label="Third navbar example">
 	<div class="container">
 		<a class="navbar-brand" href="{{path('app_archives_home_page')}}">Archives<i class="pl-2 fas fa-home"></i></a>
 		<button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,32 +6,46 @@
   		</button>
 		
 
-		<div class="collapse navbar-collapse " id="navbarsExample03 ">
-			<ul class="navbar-nav ml-auto">
+		<div class="collapse navbar-collapse justify-content-center" id="navbarsExample03 ">
+			<ul class="navbar-nav ">
+				
 				{% if is_granted("ROLE_NEW_ARCHIVE") %}
 					<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
 						<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive</a>
 					</li>
 				{% endif %}
+				<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
+						<a class="nav-link" href="{{path('app_archives_new')}}">Contact<i class="pl-2 fa fa-address-book" aria-hidden="true"></i></a>
+				</li>
+				<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
+						<a class="nav-link" href="{{path('app_archives_new')}}">A propos <i class="pl-2 fa fa-info-circle" aria-hidden="true"></i></a>
+				</li>
 				{% if app.user %}
 					<li class="nav-item ml-2">
-						<a class="nav-link {{ app.request.get('_route')== 'app_account' ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="pl-2 fas fa-user-circle"></i></a>
+						<a class="nav-link ml-auto {{ app.request.get('_route') in ['app_account','app_account_edit','app_account_change_password'] ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="pl-2 fas fa-user-circle"></i></a>
 					</li>	
 				{% endif %}
 				{% if app.user  %}
 					<li class="nav-item">
-						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fas fa-sign-out-alt"></i></a>
+						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fa fa-sign-out" aria-hidden="true"></i></a>
 					</li>
-
+					<li class="nav-item">
+						<p class="nav-link " > Filiere: {{app.user.filiere.name }} {{app.user.niveau}}</p>
+					</li>
 					<form id="js-logout-form" action="{{path('app_security_logout')}}" method="POST">
 					<input type="hidden" name="_csrf_token_" value="{{csrf_token('_logout_')}}">
 					</form>
 				{% else %}
 					
-						
+					
+						<li class="nav-item">
+							<a class="nav-link {{ app.request.get('_route')== 'app_security_login' ? 'active' : ''}}" href="{{path('app_security_login')}}">Se connecter <i class="pl-2 fa fa-sign-in" aria-hidden="true"></i>
+</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link {{ app.request.get('_route')== 'app_register' ? 'active' : ''}}" href="{{path('app_register')}}">S'inscrire<i class="pl-2 fas fa-user-plus"></i></a>
 						</li>
+					
 					
 					
 				{% endif %}

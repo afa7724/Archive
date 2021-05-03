@@ -82,7 +82,7 @@ class RequestListener
     {
         return in_array(
             $currentRoute,
-            ['app_register', 'app_verify_email', 'app_registration_check_email','app_security_login']
+            ['app_register', 'app_verify_email', 'app_registration_check_email','app_security_login','home']
         );
     }
 }

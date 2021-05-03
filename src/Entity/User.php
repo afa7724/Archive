@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\UserRepository;
@@ -26,6 +28,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->isVerified = false;
+        $this->archives = new ArrayCollection();
     }
 
     /**
@@ -112,6 +115,11 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Archive::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $archives;
 
     public function getId(): ?int
     {
@@ -311,5 +319,36 @@ class User implements UserInterface
         if (is_null($this->getCreatedAt())) 
             $this->setCreatedAt(new DateTimeImmutable());
         
+    }
+
+    /**
+     * @return Collection|Archive[]
+     */
+    public function getArchives(): Collection
+    {
+        return $this->archives;
+    }
+
+    public function addArchive(Archive $archive): self
+    {
+        if (!$this->archives->contains($archive)) {
+            $this->archives[] = $archive;
+            $archive->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArchive(Archive $archive): self
+    {
+        if ($this->archives->removeElement($archive)) {
+            
+            // set the owning side to null (unless already changed)
+            if ($archive->getUser() === $this) {
+                $archive->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
