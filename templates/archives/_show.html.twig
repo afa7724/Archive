@@ -25,11 +25,8 @@
 					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de 
 						{{archive.datepromotionOn | date('Y')}}</p>
 					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
-					{% if is_granted("ROLE_EDITE_ARCHIVE") %}
+					 {% if is_granted('PIN_MANAGE', pin) %}
 						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link">Modifié</a>
-					{% endif %}
-					
-					{% if is_granted("ROLE_DELETE_ARCHIVE") %}
 						<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
 							<input type="hidden" name="_method" value="DELETE">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">

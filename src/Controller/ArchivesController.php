@@ -132,7 +132,6 @@ class ArchivesController extends AbstractController
         $archive = new Archive();
         $form = $this->createForm(archiveType::class, $archive);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $archive->setUser($this->getUser());
             $this->manager->persist($archive);
