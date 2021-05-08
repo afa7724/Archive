@@ -20,7 +20,7 @@ class LogoutEventSubscriber implements EventSubscriberInterface
     {
         $event->getRequest()->getSession()->getFlashBag()->add(
             'success',
-            'déconnecté avec succès!'
+            'Déconnecté avec succès!'
         );
         
         $event->setResponse(new RedirectResponse($this->urlGenerator->generate('app_security_login')));

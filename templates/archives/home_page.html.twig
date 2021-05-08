@@ -18,6 +18,7 @@
             <h4 class="card-title text-info text-uppercase">{{archive.title}}</h4>
             <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
             <h6 class="card-subtitle mb-2 text-info">Type d'archive: {{archive.type}}</h6>
+            <h6 class="card-subtitle mb-2 text-primary font-weight-bold font-italic">Filiere : {{app.user.filiere.name}} {% if app.user.niveau is defined %}{{app.user.niveau}} {% endif %}</h6>
             <p class="card-text">{{archive.description | nl2br | slice(0,80)}}.....</p>
             <span>
             <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>

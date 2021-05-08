@@ -1,7 +1,9 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block title  %}
-	{{ parent()}} | {{archive.title}} 
+	{{ parent()}}
+	|
+	{{archive.title}}
 {% endblock %}
 {% block body %}
 
@@ -18,32 +20,47 @@
 				</div>
 
 				<div class="card-body">
-					
+
 					<h6 class="card-subtitle mb-2 pt-2 text-success">Encadre par
 						{{archive.encadreur | nl2br}}</h6>
-					<h6 class="card-subtitle mb-2 pt-2 text-info">Type d'archive: {{archive.type}}</h6>
-					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de 
+					<h6 class="card-subtitle mb-2 pt-2 text-info">Type d'archive:
+						{{archive.type}}</h6>
+					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de
 						{{archive.datepromotionOn | date('Y')}}</p>
 					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
-					 {% if is_granted('PIN_MANAGE', pin) %}
-						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link">Modifié</a>
+					{% if is_granted('ROLE_ARCHIVE_MANAGE') %}
+						
+						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link text-monospace btn btn-warning mr-4">Modifié</a>
 						<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
 							<input type="hidden" name="_method" value="DELETE">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
-							<button class="card-link">Supprimer</button>
+							<button class="card-link text-monospace btn btn-danger">Supprimer</button>
 						</form>
 					{% endif %}
-					
+
 					{% if is_granted("ROLE_DOWNLOAD_FILE") %}
-						<p class="text-success text-center"> <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link text-monospace btn btn-success">voir la rapport (PDF)</a> </p>
+						
+							<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link text-monospace btn btn-success ml-3">voir la rapport (PDF)</a>
+						
 					{% endif %}
 
 
 				</div>
 
-				<div class="card-footer text-muted">
+				<div class="card-footer text-light">
 					<p>Modifie
-						<time datetime="{{archive.updatedAt|date('y-M-d H:i' )}}"> {{archive.updatedAt|ago}}</time>
+						<time datetime="{{archive.updatedAt|date('y-M-d H:i' )}}">
+							{{archive.updatedAt|ago}}</time>
+					</p>
+					<p>
+
+						Cree par
+						<span class="text-info">
+							{% if app.user == archive.user %}
+								vous
+							{% endif %}
+						</span>
+
 					</p>
 				</div>
 

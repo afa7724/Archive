@@ -9,11 +9,7 @@
 		<div class="collapse navbar-collapse justify-content-center" id="navbarsExample03 ">
 			<ul class="navbar-nav ">
 				
-				{% if is_granted("ROLE_NEW_ARCHIVE") %}
-					<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
-						<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive</a>
-					</li>
-				{% endif %}
+				
 				<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
 						<a class="nav-link" href="{{path('app_archives_new')}}">Contact<i class="pl-2 fa fa-address-book" aria-hidden="true"></i></a>
 				</li>
@@ -30,8 +26,13 @@
 						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fa fa-sign-out" aria-hidden="true"></i></a>
 					</li>
 					<li class="nav-item">
-						<p class="nav-link " > Filiere: {{app.user.filiere.name }} {{app.user.niveau}}</p>
+						<p class="nav-link " > Filiere: {{app.user.filiere.name }} {% if app.user.niveau is defined %}{{app.user.niveau}} {% endif %}</p>
 					</li>
+					{% if is_granted("ROLE_NEW_ARCHIVE") %}
+						<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
+							<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive <i class="pl-2 fa fa-plus" aria-hidden="true"></i></a>
+						</li>
+					{% endif %}
 					<form id="js-logout-form" action="{{path('app_security_logout')}}" method="POST">
 					<input type="hidden" name="_csrf_token_" value="{{csrf_token('_logout_')}}">
 					</form>

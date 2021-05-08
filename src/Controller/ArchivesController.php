@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Archive;
 use App\Entity\Etudiant;
 use App\Form\ArchiveType;
+use App\Entity\Professeur;
 use App\Repository\ArchiveRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -56,19 +57,27 @@ class ArchivesController extends AbstractController
     {
         $user=$this->getUser();
         //Paginee la page d'acceuil
-        if($user instanceof Etudiant && $user->getNiveau() >2 ){
+        if($user instanceof Etudiant &&  $user->getNiveau() <= 2  ){
 
             $archives =  $paginatorInterface->paginate(
                 $this->archiveRepository->findBy(['filiere'=> $user->getFiliere()]),
                 $request->query->getInt('page', 1), /*page number*/
-                2 /*limit de page*/
+                12 /*limit de page*/
             );
-        }else{
+        }if ($user instanceof Etudiant && $user->getNiveau() >= 3){
             
             $archives =  $paginatorInterface->paginate(
                 $this->archiveRepository->findBy(['filiere'=> $user->getFiliere(),'type'=> 'Mini Projet']),
                 $request->query->getInt('page', 1), /*page number*/
-                2 /*limit de page*/
+                12 /*limit de page*/
+            );
+        }
+
+        if ($user instanceof Professeur ) {
+            $archives =  $paginatorInterface->paginate(
+                $user->getArchives(),
+                $request->query->getInt('page', 1), /*page number*/
+                12 /*limit de page*/
             );
         }
         $archives->setCustomParameters([
@@ -98,11 +107,10 @@ class ArchivesController extends AbstractController
      * @param Request $request 
      *@Route("/archives/archive/{slug}-{id}/edit",name="app_archives_edit",requirements={"slug":"[a-z0-9\-]*"})
      * @return Response
-     * @IsGranted("ROLE_EDITE_ARCHIVE")
+     * @IsGranted("ROLE_ARCHIVE_MANAGE")
      */
     public function edite(Archive $archive , Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_EDITE_ARCHIVE");
         $form = $this->createForm(ArchiveType::class, $archive);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -123,7 +131,7 @@ class ArchivesController extends AbstractController
      * Cette function permet de cree une archive 
      * @return Response
      * @param Request $request 
-     * @IsGranted("ARCHIVE_MANAGE", subject="archive")
+     * @IsGranted("ROLE_NEW_ARCHIVE")
      *@Route("/archives/archive/new",name="app_archives_new")
      */
     public function new(Request $request): Response
@@ -158,7 +166,7 @@ class ArchivesController extends AbstractController
 
     public function delete(archive $archive, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ARCHIVE_MANAGE', $archive);
+        $this->denyAccessUnlessGranted('ROLE_ARCHIVE_MANAGE');
         if ($this->isCsrfTokenValid('delete' . $archive->getId(), $request->get('_token'))) {
             $this->manager->remove($archive);
             $this->manager->flush();

@@ -11,7 +11,7 @@ class PinVoter extends Voter
     protected function supports($attribute, $subject)
     {
         return $attribute === 'ARCHIVE_CREATE' || (in_array($attribute, ['ARCHIVE_MANAGE'])
-            && $subject instanceof \App\Entity\Pin);
+            && $subject instanceof \App\Entity\Archive);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -24,9 +24,11 @@ class PinVoter extends Voter
 
        switch ($attribute) {
             case 'ARCHIVE_CREATE':
-                return $user->isVerified();
+                return true;
+                break;
             case 'ARCHIVE_MANAGE':
-                return $user->isVerified() && $user == $subject->getUser();
+                return  $user === $subject->getUser();
+                break;
         }
 
         return false;

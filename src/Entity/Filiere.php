@@ -2,16 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\FiliereRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FiliereRepository;
+use DateTime;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=FiliereRepository::class)
  */
 class Filiere
 {
+    
+   
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -46,6 +51,8 @@ class Filiere
 
     public function __construct()
     {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updateAt = new DateTimeImmutable();
         $this->users = new ArrayCollection();
     }
 
@@ -154,5 +161,18 @@ class Filiere
         return $this;
     }
 
-   
+     
+    /**
+     * ?ettre a jour les heures
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateTimesStep()
+    {
+        $this->setUpdateAt(new DateTimeImmutable());
+        if (is_null($this->getCreatedAt())) 
+            $this->setCreatedAt(new DateTimeImmutable());
+        
+    }
 }
