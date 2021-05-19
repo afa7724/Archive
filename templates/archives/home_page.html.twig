@@ -12,7 +12,7 @@
 
     {% for archive in archives %}
 
-    <div class="card bg-secondary mb-4 mr-4 d-inline-block border-dark rouded shadow" style="max-width: 20rem;">
+    <div class="card bg-light mb-4 mr-4 d-inline-block border-dark rouded shadow" style="max-width: 20rem;">
     
         <div class="card-body " style="font-family:monospace">
             <h4 class="card-title text-info text-uppercase">{{archive.title}}</h4>
@@ -24,12 +24,16 @@
             <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>
             </span>
            <span>
-            <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-success btn-sm">Voir le Rapport (PDF)</a>            
+            <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-success btn-sm">Voir la brochure (PDF)</a>            
            </span>
         </div>
     </div>
         
     {% endfor %}
+    {# <div class="d-flex justify-content-end mb-2 js-filter-sorting">
+
+					{% include 'archives/_sorting.html.twig' %}
+	</div> #}
     <div class="pagination">
         {{ knp_pagination_render(archives) }}
     </div>

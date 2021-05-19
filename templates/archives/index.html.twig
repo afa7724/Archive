@@ -2,16 +2,35 @@
 
 {% block title  parent() ~ ' | Page d\'accueil '  %}
 
+{% block css %}
+<style>
+body {  
+    background-image: url("{{ asset('/images/pexels-photo-4245826.jpeg') }}"); 
+    height: 620px;
+    background-repeat: no-repeat;
+    background-size: cover;
+   
+    
+}
+
+</style>
+{% endblock %}
+
 {% block body %}
 
 
-<div class="contenaire text-center mt-4 ">
 
-<p text-center > Bienvenue sur l'Archive de l'universite  </p>
-<p class="text-muted"> Vous pouvez trouver ici , les projet et les mini projet des ans precedente avec des description detaille et une mise a jour regulieur . Vous attendez quoi pour vous inscrire ? Allez-ci  </p>
-<p class=""> <a href="{{path('app_security_login')}}" class="btn btn-danger">Commencez</a></p>
+    <div class="row text-monospace font-weight-bold "  style="font-size: 20px">
+        
+			<div class="col-md-8 mx-auto ">
+                
+                    <p> Bienvenue sur l'Archive de l'universite  </p>
+                    <p class=""> Vous pouvez trouver ici , les projet et les mini projet des ans precedente avec des description detaille et une mise a jour regulieur . Vous attendez quoi pour vous inscrire ? Allez-ci  </p>
+                    <p class=""> <a href="{{path('app_security_login')}}" class="btn btn-danger">Commencez</a></p>
+                
+            </div>
+    </div>
 
-</div>
 
 
 

@@ -47,7 +47,7 @@ class ArchiveType extends AbstractType
                 ]
             )
             ->add('imageFile', FileType::class, [
-                'label' => 'Rapport du projet (Fichier PDF)',
+                'label' => 'fichier rattacher (Fichier PDF)',
                  'attr' => ['placeholder'=> 'Veuillez selectionne un fichier PDF'],   
                 // unmapped means that this field is not associated to any entity property
                 // 'mapped' => false,

@@ -12,7 +12,7 @@
 		<div class="col-md-6 mx-auto">
 
 
-			<div class="card bg-secondary mb-3 d-inline-block border-dark rouded shadow ">
+			<div class="card bg-light mb-3 d-inline-block border-dark rouded shadow ">
 				<div class="card-header">
 					<h4 class="card-title text-info text-center text-uppercase">
 						{{archive.title}}
@@ -30,7 +30,7 @@
 					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
 					{% if is_granted('ROLE_ARCHIVE_MANAGE') %}
 						
-						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link text-monospace btn btn-warning mr-4">Modifié</a>
+						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link text-monospace btn btn-warning mr-2">Modifié</a>
 						<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
 							<input type="hidden" name="_method" value="DELETE">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
@@ -40,14 +40,14 @@
 
 					{% if is_granted("ROLE_DOWNLOAD_FILE") %}
 						
-							<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link text-monospace btn btn-success ml-3">voir la rapport (PDF)</a>
+							<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link text-monospace btn btn-success ">Télécharger la brochure (PDF)</a>
 						
 					{% endif %}
 
 
 				</div>
 
-				<div class="card-footer text-light">
+				<div class="card-footer text-dark">
 					<p>Modifie
 						<time datetime="{{archive.updatedAt|date('y-M-d H:i' )}}">
 							{{archive.updatedAt|ago}}</time>

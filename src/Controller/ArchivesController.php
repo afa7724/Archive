@@ -31,8 +31,8 @@ class ArchivesController extends AbstractController
         $this->archiveRepository = $archiveRepository;
     }
 
-    
-    
+
+
     /**
      * La page de bienvenue
      * 
@@ -40,40 +40,45 @@ class ArchivesController extends AbstractController
      *
      * @return Response
      */
-    public function index():Response
+    public function index(): Response
     {
 
         return $this->render('archives/index.html.twig');
-
     }
-    
+
     /**
      * Permet de liste tous les archives du site
      * @Route("/archives", name="app_archives_home_page")
      * @IsGranted("ROLE_USER")
      * @return Response
      */
-    public function hone_page(PaginatorInterface $paginatorInterface,Request $request): Response
+    public function hone_page(PaginatorInterface $paginatorInterface, Request $request): Response
     {
-        $user=$this->getUser();
+        $user = $this->getUser();
         //Paginee la page d'acceuil
-        if($user instanceof Etudiant &&  $user->getNiveau() <= 2  ){
+        if ($user instanceof Etudiant &&  $user->getNiveau() <= 2) {
 
             $archives =  $paginatorInterface->paginate(
-                $this->archiveRepository->findBy(['filiere'=> $user->getFiliere()]),
+                $this->archiveRepository->findBy(['filiere' => $user->getFiliere(), 'type' => 'Mini Projet']),
                 $request->query->getInt('page', 1), /*page number*/
                 12 /*limit de page*/
             );
-        }if ($user instanceof Etudiant && $user->getNiveau() >= 3){
-            
+        } else if ($user instanceof Etudiant && $user->getNiveau() === 3) {
+
             $archives =  $paginatorInterface->paginate(
-                $this->archiveRepository->findBy(['filiere'=> $user->getFiliere(),'type'=> 'Mini Projet']),
+                $this->archiveRepository->findBy(['filiere' => $user->getFiliere(), 'type' => ['Mini Projet', 'Rapport de stage', 'Projet Tutoriel']]),
+                $request->query->getInt('page', 1), /*page number*/
+                12 /*limit de page*/
+            );
+        } else {
+            $archives =  $paginatorInterface->paginate(
+                $this->archiveRepository->findAll(),
                 $request->query->getInt('page', 1), /*page number*/
                 12 /*limit de page*/
             );
         }
 
-        if ($user instanceof Professeur ) {
+        if ($user instanceof Professeur) {
             $archives =  $paginatorInterface->paginate(
                 $user->getArchives(),
                 $request->query->getInt('page', 1), /*page number*/
@@ -109,16 +114,16 @@ class ArchivesController extends AbstractController
      * @return Response
      * @IsGranted("ROLE_ARCHIVE_MANAGE")
      */
-    public function edite(Archive $archive , Request $request): Response
+    public function edite(Archive $archive, Request $request): Response
     {
         $form = $this->createForm(ArchiveType::class, $archive);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($archive);
             $this->manager->flush();
-            $type="success";
-            $this->addFlash($type,'Archive Modifier');
-            return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(),'id' => $archive->getId()]);
+            $type = "success";
+            $this->addFlash($type, 'Archive Modifier');
+            return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(), 'id' => $archive->getId()]);
         }
         return $this->render('archives/_new.html.twig', [
             'form' => $form->createView(),
@@ -144,9 +149,9 @@ class ArchivesController extends AbstractController
             $archive->setUser($this->getUser());
             $this->manager->persist($archive);
             $this->manager->flush();
-            $type="success";
-            $this->addFlash($type,'Archive créer');
-            return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(),'id' => $archive->getId()]);
+            $type = "success";
+            $this->addFlash($type, 'Archive créer');
+            return  $this->redirectToRoute("app_archives_show", ['slug' => $archive->getSlug(), 'id' => $archive->getId()]);
         }
         return $this->render('archives/_new.html.twig', [
             'form' => $form->createView(),
@@ -154,7 +159,7 @@ class ArchivesController extends AbstractController
             'edit' => is_null($archive->getId())
         ]);
     }
-    
+
     /**
      * Permet de supprime une archive 
      * @param Archive $archive
@@ -174,5 +179,4 @@ class ArchivesController extends AbstractController
         }
         return  $this->redirectToRoute("app_archives_home_page");
     }
-
 }

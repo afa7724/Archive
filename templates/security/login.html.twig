@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html.twig' %}
+{# {% extends 'layouts/base.html.twig' %}
 
 {% block title parent() ~ ' | Page de connexion '%}
 
@@ -44,4 +44,79 @@
         </div>
     </div>
 
+{% endblock %} #}
+
+
+{% extends 'layouts/base.html.twig' %}
+
+{% block css %}
+	
+
 {% endblock %}
+
+{% block title %}
+	Connexion
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<div id="back" class="card text-small mx-sm-auto bg-light" style="margin-top:50px;width: 30rem;">
+
+			<div class="card-body">
+
+				<form method="post" id="form-login">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+					<div class="card-header bg-white">
+						{% for message in app.flashes('message') %}
+							<div class="text-success text-small">
+								{{message}}
+							</div>
+						{% endfor %}
+						{% for message in app.flashes('danger') %}
+							<div class="text-danger text-small">
+								{{message}}
+							</div>
+						{% endfor %}
+
+						<h2 class="h3 mb-3 font-weight-normal card-title">S'identifier</h2>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail">Adresse électronique</label>
+						<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Entrez votre e-mail" required autofocus autocomplete>
+						<small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre.</small>
+					</div>
+					<div class="form-group">
+
+						<label for="inputPassword">Mot de passe</label>
+						<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required autocomplete>
+						<small id="passwordhelp" class="form-text text-muted">
+							<a href="{{path('app_forgot_password_request')}}" class="text-small">(Mot de passe Oublie!)</a>
+						</small>
+					</div>
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+					<div class="text-center mb-2">
+						<button class="btn btn-primary card-link " type="submit" id="btn-login">
+							Se connecter
+						</button>
+
+					</div>
+
+				</form>
+				<div class="card-footer text-muted text-center bg-white">
+					<small class="card-subtitle mb-2 text-muted">Nouveau chez nous ?</small>
+					<br/>
+					<a href="{{path('app_register')}}" class="btn btn-success card-link">Crée votre compte</a>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

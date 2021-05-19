@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Archive
 {
-    const TYPE =[ 'Mini Projet' => 'Mini Projet','Memoire'=>'Memoire'];
+    const TYPE =[ 'Mini Projet' => 'Mini Projet','Memoire'=>'Memoire','Rapport de stage'=> 'Rapport de stage','Projet Tutoriel'=>'Projet Tutoriel'];
 
     /**
      * @ORM\Id
