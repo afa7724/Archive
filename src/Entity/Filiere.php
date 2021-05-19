@@ -175,4 +175,9 @@ class Filiere
             $this->setCreatedAt(new DateTimeImmutable());
         
     }
+
+    public function __toString()
+    {
+     return $this->name;
+    }
 }
