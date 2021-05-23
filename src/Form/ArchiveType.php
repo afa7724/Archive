@@ -55,7 +55,7 @@ class ArchiveType extends AbstractType
                 ]
             )
             ->add('imageFile', FileType::class, [
-                'label' => 'fichier rattacher (Fichier PDF)',
+                'label' => 'Fichier rattacher (Fichier PDF)',
                 'attr' => ['placeholder' => 'Veuillez selectionne un fichier PDF'],
                 // unmapped means that this field is not associated to any entity property
                 // 'mapped' => false,
@@ -78,7 +78,7 @@ class ArchiveType extends AbstractType
                 ],
             ])
             ->add('filecodesources', FileType::class, [
-                'label' => 'fichier de code sources (Fichier PDF)',
+                'label' => 'Fichier de code sources (Fichier RAR)',
                 'attr' => ['placeholder' => 'Veuillez selectionne un fichier rar'],
                 // unmapped means that this field is not associated to any entity property
                 // 'mapped' => false,
@@ -108,12 +108,13 @@ class ArchiveType extends AbstractType
                     'class' => Filiere::class,
                     'choice_label' => 'name',
                     'label' => 'Filière',
-                    // 'query_builder' => function (EntityRepository $er) {
-                    //     return $er->createQueryBuilder('f')
-                    //             ->andWhere('f.nae in :val')
-                    //             ->setParameter('val',  $this->token->getToken()->getUser())
-                    //             ->orderBy('f.name', 'ASC');
-                    // },
+                    //Select filiere name by current user 
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('f')
+                                ->innerJoin('f.professeurs','p','WITH','p.id = :val')
+                                ->setParameter('val', $this->token->getToken()->getUser() )
+                                ->orderBy('f.name', 'ASC');
+                    },
                 ]
             );
     }

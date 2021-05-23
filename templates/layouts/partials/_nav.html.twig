@@ -28,11 +28,7 @@
 					<li class="nav-item">
 						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fa fa-sign-out" aria-hidden="true"></i></a>
 					</li>
-					{% if not is_granted("ROLE_PROFESSEUR") %}	
-						<li class="nav-item">
-							<a class="nav-link " href="#" > Filiere: {{app.user.filiere.name }} {{app.user.niveau}} </a>
-						</li>
-					{% endif %}
+					
 					{% if is_granted("ROLE_NEW_ARCHIVE") %}
 						<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
 							<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive <i class="pl-2 fa fa-plus" aria-hidden="true"></i></a>
