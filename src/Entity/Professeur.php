@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ProfesseurRepository;
@@ -14,6 +16,17 @@ use App\Repository\ProfesseurRepository;
 class Professeur extends User
 {
    
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Filiere::class, inversedBy="professeurs")
+     */
+    private $filieres;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->filieres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -42,5 +55,29 @@ class Professeur extends User
         if (is_null($this->getCreatedAt())) 
             $this->setCreatedAt(new DateTimeImmutable());
         
+    }
+
+    /**
+     * @return Collection|Filiere[]
+     */
+    public function getFilieres(): Collection
+    {
+        return $this->filieres;
+    }
+
+    public function addFiliere(Filiere $filiere): self
+    {
+        if (!$this->filieres->contains($filiere)) {
+            $this->filieres[] = $filiere;
+        }
+
+        return $this;
+    }
+
+    public function removeFiliere(Filiere $filiere): self
+    {
+        $this->filieres->removeElement($filiere);
+
+        return $this;
     }
 }

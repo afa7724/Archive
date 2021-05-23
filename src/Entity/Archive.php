@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use DateTimeImmutable;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Archive
 {
-    const TYPE =[ 'Mini Projet' => 'Mini Projet','Memoire'=>'Memoire','Rapport de stage'=> 'Rapport de stage','Projet Tutoriel'=>'Projet Tutoriel'];
+    const TYPE = ['Mini Projet' => 'Mini Projet', 'Memoire' => 'Memoire', 'Rapport de stage' => 'Rapport de stage', 'Projet Tutoriel' => 'Projet Tutoriel'];
 
     /**
      * @ORM\Id
@@ -27,7 +28,7 @@ class Archive
     private $id;
 
 
-     /**
+    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="archive_file", fileNameProperty="rapportfilename")
@@ -35,6 +36,17 @@ class Archive
      * @var File|null
      */
     private $imageFile;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="archive_file_codesource", fileNameProperty="codesource")
+     * 
+     * @var File|null
+     */
+
+    private $filecodesources;
+
 
     /**
      * @Assert\Length(min=2,
@@ -64,7 +76,7 @@ class Archive
      * 
      * @ORM\Column(type="date")
      */
-    private $datepromotionOn ;
+    private $datepromotionOn;
 
     /**
      *@Assert\Choice(choices=Archive::TYPE, message="Choisir un type valable.")
@@ -95,6 +107,11 @@ class Archive
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $codesource;
 
 
     public function getId(): ?int
@@ -159,7 +176,7 @@ class Archive
     {
         $this->datepromotionOn = $datepromotionOn;
 
-        
+
         return $this;
     }
 
@@ -195,9 +212,8 @@ class Archive
     public function updateTimesStep()
     {
         $this->setUpdatedAt(new DateTimeImmutable());
-        if (is_null($this->getCreatedAt())) 
+        if (is_null($this->getCreatedAt()))
             $this->setCreatedAt(new DateTimeImmutable());
-        
     }
 
     public function getSlug(): string
@@ -217,11 +233,11 @@ class Archive
         return $this;
     }
 
-   
 
 
 
-     /**
+
+    /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
@@ -247,6 +263,31 @@ class Archive
         return $this->imageFile;
     }
 
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setFilecodesources(?File $Filecodesources = null): Archive
+    {
+        $this->filecodesources = $Filecodesources;
+
+        if (null !== $Filecodesources) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    public function getFilecodesources(): ?File
+    {
+        return $this->filecodesources;
+    }
     public function getRapportfilename(): ?string
     {
         return $this->rapportfilename;
@@ -274,5 +315,17 @@ class Archive
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getCodesource(): ?string
+    {
+        return $this->codesource;
+    }
+
+    public function setCodesource(?string $codesource): self
+    {
+        $this->codesource = $codesource;
+
+        return $this;
     }
 }

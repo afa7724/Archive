@@ -110,11 +110,7 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $filiere;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Archive::class, mappedBy="user", orphanRemoval=true)
@@ -154,7 +150,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-       $roles[] = '';
+        $roles[] = '';
         return array_unique($roles);
     }
 
@@ -294,21 +290,11 @@ class User implements UserInterface
         return sprintf('https://www.gravatar.com/avatar/%s?s=%d', md5(strtolower(trim($this->getEmail()))), $size);
     }
 
-    public function getFiliere(): ?Filiere
-    {
-        return $this->filiere;
-    }
 
-    public function setFiliere(?Filiere $filiere): self
-    {
-        $this->filiere = $filiere;
 
-        return $this;
-    }
 
-    
     /**
-     * ?ettre a jour les heures
+     * Mettre a jour les heures
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -316,9 +302,8 @@ class User implements UserInterface
     public function updateTimesStep()
     {
         $this->setUpdatedAt(new DateTimeImmutable());
-        if (is_null($this->getCreatedAt())) 
+        if (is_null($this->getCreatedAt()))
             $this->setCreatedAt(new DateTimeImmutable());
-        
     }
 
     /**
@@ -342,7 +327,7 @@ class User implements UserInterface
     public function removeArchive(Archive $archive): self
     {
         if ($this->archives->removeElement($archive)) {
-            
+
             // set the owning side to null (unless already changed)
             if ($archive->getUser() === $this) {
                 $archive->setUser(null);
@@ -351,6 +336,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-    
 }

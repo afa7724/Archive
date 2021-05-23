@@ -32,6 +32,7 @@ class ArchivesController extends AbstractController
     }
 
 
+    
 
     /**
      * La page de bienvenue
@@ -54,6 +55,8 @@ class ArchivesController extends AbstractController
      */
     public function hone_page(PaginatorInterface $paginatorInterface, Request $request): Response
     {
+       
+
         $user = $this->getUser();
         //Paginee la page d'acceuil
         if ($user instanceof Etudiant &&  $user->getNiveau() <= 2) {

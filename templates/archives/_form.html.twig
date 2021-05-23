@@ -14,7 +14,7 @@
         </div>
 
         <div class="form-group ">
-            {{ form_row(form.Encadreur)}}
+            {{ form_row(form.Encadreur,{'value': [app.user.firstname ,app.user.lastname] |join(' ') })}}
         </div>
         <div class="form-group">
             {{ form_row(form.type)}}
@@ -23,10 +23,13 @@
             {{ form_row(form.datepromotionOn)}}
         </div>
         <div class="form-group">
-            {{ form_row(form.filiere)}}
+            {{ form_row(form.filiere  )}}
         </div>
         <div class="form-group">
             {{ form_row(form.imageFile)}}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.filecodesources)}}
         </div>
         <div class="form-group">
             {{ form_row(form.description)}}

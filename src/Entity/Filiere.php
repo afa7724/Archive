@@ -14,8 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Filiere
 {
-    
-   
+
+
 
     /**
      * @ORM\Id
@@ -45,20 +45,29 @@ class Filiere
     private $archives;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="filiere")
+     * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="filieres")
      */
-    private $users;
+    private $professeurs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Etudiant::class, mappedBy="filiere")
+     */
+    private $etudiants;
+
+
 
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->updateAt = new DateTimeImmutable();
         $this->users = new ArrayCollection();
+        $this->professeurs = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
     }
 
-   
 
-    
+
+
 
     public function getId(): ?int
     {
@@ -131,37 +140,8 @@ class Filiere
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
 
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setFiliere($this);
-        }
 
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getFiliere() === $this) {
-                $user->setFiliere(null);
-            }
-        }
-
-        return $this;
-    }
-
-     
     /**
      * ?ettre a jour les heures
      *
@@ -171,13 +151,69 @@ class Filiere
     public function updateTimesStep()
     {
         $this->setUpdateAt(new DateTimeImmutable());
-        if (is_null($this->getCreatedAt())) 
+        if (is_null($this->getCreatedAt()))
             $this->setCreatedAt(new DateTimeImmutable());
-        
     }
 
     public function __toString()
     {
-     return $this->name;
+        return $this->name;
+    }
+
+    /**
+     * @return Collection|Professeur[]
+     */
+    public function getProfesseurs(): Collection
+    {
+        return $this->professeurs;
+    }
+
+    public function addProfesseur(Professeur $professeur): self
+    {
+        if (!$this->professeurs->contains($professeur)) {
+            $this->professeurs[] = $professeur;
+            $professeur->addFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseur(Professeur $professeur): self
+    {
+        if ($this->professeurs->removeElement($professeur)) {
+            $professeur->removeFiliere($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Etudiant[]
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiant $etudiant): self
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants[] = $etudiant;
+            $etudiant->setFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiant $etudiant): self
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getFiliere() === $this) {
+                $etudiant->setFiliere(null);
+            }
+        }
+
+        return $this;
     }
 }

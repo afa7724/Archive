@@ -24,6 +24,12 @@ class Etudiant extends User
      */
     private $niveau;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="etudiants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $filiere;
+
   
 
     public function getId(): ?int
@@ -51,6 +57,18 @@ class Etudiant extends User
         $roles = $this->roles;
        $roles[]= 'ROLE_ETUDIANT';
         return array_unique($roles);
+    }
+
+    public function getFiliere(): ?Filiere
+    {
+        return $this->filiere;
+    }
+
+    public function setFiliere(?Filiere $filiere): self
+    {
+        $this->filiere = $filiere;
+
+        return $this;
     }
 
 

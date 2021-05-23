@@ -6,6 +6,10 @@ vich_uploader:
            uri_prefix: /uploads/brochures
            upload_destination: '%kernel.project_dir%/public/uploads/brochures'
            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+       archive_file_codesource:
+           uri_prefix: /uploads/brochures/codesources
+           upload_destination: '%kernel.project_dir%/public/uploads/brochures/codesources'
+           namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
            inject_on_load: false
            delete_on_update: true

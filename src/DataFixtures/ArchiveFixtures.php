@@ -19,7 +19,7 @@ class ArchiveFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $filieresliste = ['Mathematique','Physique','Informatique','Biologie','Geologie','Biologie/Geologie'];
-        $typearchive = ['Mini Projet','Memoire'];
+        $typearchive = ['Mini Projet','Memoire','Rapport de stage','Projet Tutoriel'];
         //cree six filieres 
         
         for ($i=0; $i < 6; $i++) { 
@@ -29,21 +29,21 @@ class ArchiveFixtures extends Fixture
             
             //Professeur
             $prof = new Professeur();
-            $prof->setFirstname($faker->firstName())
+            $prof->addFiliere($filiere)
+            ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
             ->setIsVerified(true)
             ->setRoles(['ROLE_PROFESSEUR'])
-            ->setFiliere($filiere)
             ->setEmail($faker->email())
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$OGRETFpqYUJEeGhyZTk4UA$iQECZNRncIqOW0F1i6y/xluCCSXniDymymhzN0CllDQ');
                
             $etudiant = new Etudiant();
             $etudiant->setNiveau(random_int(1,3))
+            ->setFiliere($filiere)
             ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
             ->setIsVerified(true)
             ->setRoles(['ROLE_USER'])
-            ->setFiliere($filiere)
             ->setEmail($faker->email())
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$OGRETFpqYUJEeGhyZTk4UA$iQECZNRncIqOW0F1i6y/xluCCSXniDymymhzN0CllDQ');
            $manager->persist($prof);

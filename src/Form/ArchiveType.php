@@ -4,19 +4,27 @@ namespace App\Form;
 
 use App\Entity\Archive;
 use App\Entity\Filiere;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ArchiveType extends AbstractType
 {
+    private $token;
+
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token = $token;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,7 +40,7 @@ class ArchiveType extends AbstractType
                 'label' => 'Encadreur',
 
             ])
-            ->add('datepromotionOn',null,[
+            ->add('datepromotionOn', null, [
                 'label' => 'Date de Promo'
                 // 'widget' => 'single_text',
                 // 'input' => 'string',
@@ -48,7 +56,7 @@ class ArchiveType extends AbstractType
             )
             ->add('imageFile', FileType::class, [
                 'label' => 'fichier rattacher (Fichier PDF)',
-                 'attr' => ['placeholder'=> 'Veuillez selectionne un fichier PDF'],   
+                'attr' => ['placeholder' => 'Veuillez selectionne un fichier PDF'],
                 // unmapped means that this field is not associated to any entity property
                 // 'mapped' => false,
 
@@ -69,13 +77,43 @@ class ArchiveType extends AbstractType
                     ])
                 ],
             ])
+            ->add('filecodesources', FileType::class, [
+                'label' => 'fichier de code sources (Fichier PDF)',
+                'attr' => ['placeholder' => 'Veuillez selectionne un fichier rar'],
+                // unmapped means that this field is not associated to any entity property
+                // 'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/rar',
+                            'application/x-rar',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un document rar valide',
+                    ])
+                ],
+            ])
+
             ->add(
                 'filiere',
                 EntityType::class,
                 [
                     'class' => Filiere::class,
                     'choice_label' => 'name',
-                    'label' => 'Filière'
+                    'label' => 'Filière',
+                    // 'query_builder' => function (EntityRepository $er) {
+                    //     return $er->createQueryBuilder('f')
+                    //             ->andWhere('f.nae in :val')
+                    //             ->setParameter('val',  $this->token->getToken()->getUser())
+                    //             ->orderBy('f.name', 'ASC');
+                    // },
                 ]
             );
     }
