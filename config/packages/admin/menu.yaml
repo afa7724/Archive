@@ -1,9 +1,0 @@
-# easy_admin:
-#     design:
-#     menu:
-#         - label: 'Utilisateurs'
-#           icon: 'newspaper-o'
-#           children:
-#               - {entity: 'Etudiant' , icon: 'user' , label: 'etudiant'}
-#               - {entity: 'Professeur' , icon: 'user' , label: 'prof'}
-      
