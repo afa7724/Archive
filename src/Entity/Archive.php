@@ -18,8 +18,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Archive
 {
-    const TYPE = ['Mini Projet' => 'Mini Projet', 'Memoire' => 'Memoire', 'Rapport de stage' => 'Rapport de stage', 'Projet Tutoriel' => 'Projet Tutoriel'];
-
+       
+    const TYPE = [
+        'Mini Projet' => 'Mini Projet',
+        'Rapport de stage' => 'Rapport de stage',
+        'Projet Tutoriel' => 'Projet Tutoriel',
+        'Memoire' => 'Memoire',
+       
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -112,6 +118,14 @@ class Archive
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $codesource;
+
+     /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=1 , max=5)
+     * @Assert\NotBlank(message="Entrez votre niveau s'il vous plait")
+     * 
+     */
+    private $Niveau;
 
 
     public function getId(): ?int
@@ -325,6 +339,18 @@ class Archive
     public function setCodesource(?string $codesource): self
     {
         $this->codesource = $codesource;
+
+        return $this;
+    }
+
+    public function getNiveau(): ?int
+    {
+        return $this->Niveau;
+    }
+
+    public function setNiveau(int $Niveau): self
+    {
+        $this->Niveau = $Niveau;
 
         return $this;
     }

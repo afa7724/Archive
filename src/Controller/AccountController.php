@@ -27,7 +27,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="app_account_edit", methods={"GET", "PATCH"})
+     * @Route("/edit", name="app_account_edit", methods={"GET", "POST"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function edit(Request $request, EntityManagerInterface $em): Response
@@ -35,11 +35,11 @@ class AccountController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(UserFormType::class, $user, [
-            'method' => 'PATCH'
+            'method' => 'POST'
         ]);
 
         $form->handleRequest($request);
-
+        dd($user);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 

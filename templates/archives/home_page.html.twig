@@ -5,32 +5,39 @@
 {% block body %}
 
     <h1 class="mb-4 text-center text-muted" >Archives enregistre </h1>
+    <div class="container-fluid js-filter  " style="padding-right:100px; padding-left:70px">
+		<div class="row">
+			<div class="col-md-3 ">
+				{% include 'archives/_filter.html.twig' with {form:form} only %}
+			</div>
 
-    {% for archive in archives %}
+			<div class="col-md-9">
+				<div class="d-flex justify-content-end mb-2 js-filter-sorting">
 
-        <div class="card bg-light mb-4 mr-4 d-inline-block border-dark rouded shadow" style="max-width: 20rem;">
-        
-            <div class="card-body " style="font-family:monospace">
-                <h4 class="card-title text-info text-uppercase">{{archive.title}}</h4>
-                <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
-                <h6 class="card-subtitle mb-2 text-info">Type d'archive: {{archive.type}}</h6>
-                <h6 class="card-subtitle mb-2 text-primary font-weight-bold font-italic">Filiere : {{archive.filiere}} </h6>
-                <p class="card-text">{{archive.description | nl2br | slice(0,80)}}.....</p>
-                <span>
-                <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>
-                </span>
-            <span>
-                <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-success btn-sm">Voir la brochure (PDF)</a>            
-            </span>
-            </div>
-        </div>
-        
-    {% endfor %}
+					{% include 'archives/_sorting.html.twig' %}
+				</div>
+				<div class="grid js-filter-content">
+
+					{% include 'archives/_archive.html.twig' %}
+				</div>
+				<div class="mt-4 js-filter-pagination">
+					{% include 'archives/_pagination.html.twig' %}
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
     {# <div class="d-flex justify-content-end mb-2 js-filter-sorting">
 
 					{% include 'archives/_sorting.html.twig' %}
 	</div> #}
-    <div class="pagination">
-        {{ knp_pagination_render(archives) }}
-    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+
+	<script src="{{ asset('js/script.js') }}"></script>
+
 {% endblock %}

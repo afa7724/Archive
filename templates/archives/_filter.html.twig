@@ -1,0 +1,27 @@
+{{ form_start(form,{attr: {class: 'filter js-filter-form'}}) }}
+<div class="d-flex justify-content-center">
+<div class="spinner-grow js-loading text-primary" role="status" aria-hidden="true" style="display: none;width: 3rem; height: 3rem;">
+  <span class="sr-only">Loading...</span>   
+</div>
+
+</div>
+
+{{ form_row(form.q)}}
+{% if is_granted('ROLE_PROFESSEUR') %}
+<h4>Filieres</h4>
+
+{{ form_row(form.filiere)}}
+{% endif %}
+<span class="checkmark"></span>
+
+
+
+
+ 
+
+
+<h4> Type d'Archive</h4>
+{{ form_row(form.typearchive)}}  
+
+<button  name="" id="" class="btn btn-primary w-100" >Filtrer</button>
+{{ form_end(form,{'render_rest': false}) }}

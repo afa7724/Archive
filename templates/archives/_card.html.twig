@@ -1,0 +1,61 @@
+{# <div class="card bg-light mb-4 mr-4 d-inline-block border-dark rouded shadow" style="max-width: 20rem;">
+        
+            <div class="card-body " style="font-family:monospace">
+                <h4 class="card-title text-info text-uppercase">{{archive.title}}</h4>
+                <h6 class="card-subtitle mb-2 text-success">Encadre par {{archive.encadreur}}</h6>
+                <h6 class="card-subtitle mb-2 text-info" style="font-weight: bold">Type d'archive: {{archive.type}}</h6>
+                <h6 class="card-subtitle mb-2 text-primary font-weight-bold font-italic">Filiere : {{archive.filiere}} </h6>
+                <p class="card-text">{{archive.description | nl2br | slice(0,80)}}.....</p>
+                <span>
+                <a href="{{path('app_archives_show',{slug:archive.slug,id:archive.id})}}" class="card-link btn btn-info btn-sm">voir plus</a>
+                </span>
+            <span>
+                <a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link btn btn-success btn-sm">Voir la brochure (PDF)</a>            
+            </span>
+            </div>
+</div> #}
+
+
+<div class="card mb-4  border-primary mb-3 h-auto d-inline-block rouded shadow" style="width: 17rem;max-width: 18rem;max-height: 30rem; background-color:#F2F2F2" id="archive-{{archive.id}}">
+
+	<h5 class="card-title pl-3 text-info text-uppercase">
+		<a href="{{ path('app_archives_show',{slug:archive.slug,id:archive.id}) }}" class="card-link stretched-link text-decoration-none">
+			{{archive.title}}
+		</a>
+	</h5>
+	
+	<div class="card-body border-primary " style="background-color:#F2F2F2">
+
+		<!-- | u.truncate(80, true) -->
+		{# <p class="card-text">{{ dechet.Description | nl2br | slice(0,80)  }}....</p> #}
+			 <h6 class="card-subtitle mb-2 text-info" style="font-weight: bold">
+            Encadre par {{archive.encadreur}}
+		</h6>
+
+		<div style="font-family:monospace">
+
+			<span class="badge text-success font-weight-bold font-italic " style="font-size: 14px" >Filiere :
+			</span>
+			  {{archive.filiere}}
+
+			<span class="badge text-warning font-weight-bold font-italic  my-2" style="font-size: 14px">Type d'archive: 
+			</span>
+			<br><span class="mx-4">{{archive.type}}</span>
+
+			<span class="badge mx-2 text-warning font-weight-bold font-italic" style="font-size: 14px">Année de Promotion: 
+			</span>
+			{{archive.datepromotionOn|date('Y')}}
+
+			{# <span class="badge" style="font-size: 14px">Origine :</span>
+			{% if dechet.Origine == 0 %}
+				Menagers
+			{% else  %}
+				Activite economique
+				{% endif%} #}
+
+			</div>
+
+		</div>
+
+
+	</div>

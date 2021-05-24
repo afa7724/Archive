@@ -30,17 +30,18 @@
 					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
 					{% if is_granted('ROLE_ARCHIVE_MANAGE') %}
 						
-						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="card-link text-monospace btn btn-warning mr-2">Modifié</a>
+						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="mx-4 card-link text-monospace btn btn-warning mx-2">Modifié</a>
 						<form method="post" action="{{path('app_archives_delete',{slug:archive.slug,id: archive.id })}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
 							<input type="hidden" name="_method" value="DELETE">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete'~ archive.id)}}">
-							<button class="card-link text-monospace btn btn-danger">Supprimer</button>
+							<button class="mx-4 card-link text-monospace btn btn-danger">Supprimer</button>
 						</form>
 					{% endif %}
 
 					{% if is_granted("ROLE_DOWNLOAD_FILE") %}
 						
-							<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="card-link text-monospace btn btn-success ">Télécharger la brochure (PDF)</a>
+							<a href="{{ asset('uploads/brochures/' ~ archive.rapportfilename) }}" class="mx-4 my-2 card-link text-monospace btn btn-success  ">Brochure (PDF)</a>
+							<a href="{{ asset('uploads/brochures/codesources/' ~ archive.codesource) }}" class="mx-4 my-2 card-link text-monospace btn btn-info ">Code source (Fichier rar)</a>
 						
 					{% endif %}
 
@@ -58,6 +59,8 @@
 						<span class="text-info">
 							{% if app.user == archive.user %}
 								vous
+							{% else %}
+								{{[app.user.firstname ,app.user.lastname] |join(' ')}}
 							{% endif %}
 						</span>
 

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -38,6 +39,10 @@ class ArchiveType extends AbstractType
             ])
             ->add('Encadreur', TextType::class, [
                 'label' => 'Encadreur',
+
+            ])
+            ->add('Niveau', IntegerType::class, [
+                'label' => 'Niveau universitaire',
 
             ])
             ->add('datepromotionOn', null, [
@@ -111,9 +116,9 @@ class ArchiveType extends AbstractType
                     //Select filiere name by current user 
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('f')
-                                ->innerJoin('f.professeurs','p','WITH','p.id = :val')
-                                ->setParameter('val', $this->token->getToken()->getUser() )
-                                ->orderBy('f.name', 'ASC');
+                            ->innerJoin('f.professeurs', 'p', 'WITH', 'p.id = :val')
+                            ->setParameter('val', $this->token->getToken()->getUser())
+                            ->orderBy('f.name', 'ASC');
                     },
                 ]
             );

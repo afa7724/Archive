@@ -19,7 +19,13 @@ class ArchiveFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $filieresliste = ['Mathematique','Physique','Informatique','Biologie','Geologie','Biologie/Geologie'];
-        $typearchive = ['Mini Projet','Memoire','Rapport de stage','Projet Tutoriel'];
+        $typearchive = [
+            0 => 'Mini Projet',
+            1 => 'Rapport de stage',
+            2 => 'Projet Tutoriel',
+            3 => 'Projet Tutoriel',
+            4 => 'Memoire'
+        ];
         //cree six filieres 
         
         for ($i=0; $i < 6; $i++) { 

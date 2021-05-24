@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Archive;
+use App\Data\SearchData;
 use App\Entity\Etudiant;
+use App\Form\SearchForm;
 use App\Form\ArchiveType;
 use App\Entity\Professeur;
 use App\Repository\ArchiveRepository;
@@ -13,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -56,44 +58,44 @@ class ArchivesController extends AbstractController
     public function hone_page(PaginatorInterface $paginatorInterface, Request $request): Response
     {
        
-
+        $data =new SearchData();
+        $data->page = $request->get('page',1);
+        $form = $this->createForm(SearchForm::class,$data);
+        $form->handleRequest($request);
         $user = $this->getUser();
         //Paginee la page d'acceuil
-        if ($user instanceof Etudiant &&  $user->getNiveau() <= 2) {
-
-            $archives =  $paginatorInterface->paginate(
-                $this->archiveRepository->findBy(['filiere' => $user->getFiliere(), 'type' => 'Mini Projet']),
-                $request->query->getInt('page', 1), /*page number*/
-                12 /*limit de page*/
-            );
-        } else if ($user instanceof Etudiant && $user->getNiveau() === 3) {
-
-            $archives =  $paginatorInterface->paginate(
-                $this->archiveRepository->findBy(['filiere' => $user->getFiliere(), 'type' => ['Mini Projet', 'Rapport de stage', 'Projet Tutoriel']]),
-                $request->query->getInt('page', 1), /*page number*/
-                12 /*limit de page*/
-            );
-        } else {
-            $archives =  $paginatorInterface->paginate(
-                $this->archiveRepository->findAll(),
-                $request->query->getInt('page', 1), /*page number*/
-                12 /*limit de page*/
-            );
-        }
+        
+            
+       
 
         if ($user instanceof Professeur) {
-            $archives =  $paginatorInterface->paginate(
-                $user->getArchives(),
-                $request->query->getInt('page', 1), /*page number*/
-                12 /*limit de page*/
-            );
+            $archives = $this->archiveRepository->findSearch($data,$user);
+        }if ($user instanceof Etudiant)  {     
+            $archives = $this->archiveRepository->findSearch($data,null,$user->getFiliere(),$user->getNiveau());
         }
+        if($request->get('ajax'))
+       {  
+           return new JsonResponse([
+               'content' => $this->renderView('archives/_archive.html.twig',['archives' => $archives]),
+               'sorting' => $this->renderView('home/_sorting.html.twig',['archives' => $archives]),
+               'pagination' => $this->renderView('home/_pagination.html.twig',['archives' => $archives]),
+               'pages'  => ceil($archives->getTotalItemCount()/$archives->getItemNumberPerPage()),
+               
+
+               ]);
+       }
         $archives->setCustomParameters([
             'align' => 'center',
             'size' => 'medium',
             'rounded' => true,
         ]);
-        return $this->render('archives/home_page.html.twig', compact('archives'));
+       
+        return $this->render('archives/home_page.html.twig', [
+            'controller_name' => 'DechetController',
+            'archives' => $archives,
+            'form' =>$form->createView(),
+            
+        ]);
     }
 
     /**

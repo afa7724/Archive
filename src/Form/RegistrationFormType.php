@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['placeholder' => 'example@example.com']
                  ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label'=>'Accepter les onditions d\'utilisation et la politique de confidentialité',
+                'label'=>'Accepter les conditions d\'utilisation et la politique de confidentialité',
                 'help'=>'Lire les Conditions d\'utilisation et la Politique de confidentialité',
                 'mapped' => false,
                 'constraints' => [
