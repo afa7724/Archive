@@ -40,25 +40,27 @@ class ArchiveCrudController extends AbstractCrudController
             AssociationField::new('filiere')->autocomplete(),
             NumberField::new('Niveau'),
             DateField::new('datepromotionOn')->hideOnIndex(),
-            TextField::new('Encadreur'),
+            TextField::new('Encadreur')->hideOnIndex(),
             TextEditorField::new('description')->hideOnIndex(),
-            DateTimeField::new('createdAt')->hideOnForm(),
-            DateTimeField::new('updatedAt')->hideOnForm(),
-            AssociationField::new('user')->onlyOnDetail(),
+            DateTimeField::new('createdAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
+            AssociationField::new('user')->hideOnindex(),
             // VichImageField::new('imageFile')->onlyOnForms()->setFormType(VichImageType::class),
             // ImageField::new('filecodesources')->onlyOnForms()->setFormType(VichImageType::class),
             $imageFile = ImageField::new('rapportfilename')
                 ->setBasePath('public/uploads/brochures') // Needed for Index page
                 ->setUploadDir('public/uploads/brochures')
-                ->setHelp("Fichier PDF"), //Needed for new / edit page
+                ->setHelp("Fichier PDF")
+                ->onlyOnForms(), //Needed for new / edit page
             $filecodesources = ImageField::new('codesource')
                 ->setBasePath('public/uploads/brochures/codesources')
                 ->setUploadDir('public/uploads/brochures/codesources')
-                ->setHelp("Fichier RAR") //Needed for new / edit page
+                ->setHelp("Fichier RAR")
+                ->onlyOnForms(), //Needed for new / edit page
 
         ];
     }
-   
+
 
     public function createEntity(string $entityFqcn)
     {
@@ -69,5 +71,23 @@ class ArchiveCrudController extends AbstractCrudController
         return $archive;
     }
 
-   
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action->setIcon("fa fa-list")->addCssClass('btn btn-success');
+            })
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+                return $action->setIcon("fa fa-edit")->addCssClass('btn btn-warning');
+            })
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
+                return $action->setIcon("fa fa-eye")->addCssClass('btn btn-info');
+            })
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action->setIcon("fa fa-trash")->addCssClass('btn btn-outline-danger');
+            });;
+    }
 }

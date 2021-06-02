@@ -27,7 +27,7 @@
 						{{archive.type}}</h6>
 					<p class="card-text text-muted mb-2 pb-3 text-dark">Promotion de
 						{{archive.datepromotionOn | date('Y')}}</p>
-					<p class="card-text pl-3 pb-3">{{archive.description}}</p>
+					<p class="card-text pl-3 pb-3">{{archive.description|raw}}</p>
 					{% if is_granted('ROLE_ARCHIVE_MANAGE') %}
 						
 						<a href="{{path('app_archives_edit',{slug:archive.slug,id:archive.id})}}" class="mx-4 card-link text-monospace btn btn-warning mx-2">Modifié</a>

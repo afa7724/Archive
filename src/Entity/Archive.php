@@ -20,7 +20,7 @@ class Archive
 {
        
     const TYPE = [      
-        'Mini Projet' => 'Mini Proje',
+        'Mini Projet' => 'Mini Projet',
         'Rapport de stage' => 'Rapport de stage',
         'Projet Tutoriel' => 'Projet Tutoriel',
         'Memoire' => 'Memoire',
