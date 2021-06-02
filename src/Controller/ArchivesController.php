@@ -66,8 +66,8 @@ class ArchivesController extends AbstractController
         //Paginee la page d'acceuil
         
             
+        $archives = $this->archiveRepository->findSearch($data,null,null);
        
-
         if ($user instanceof Professeur) {
             $archives = $this->archiveRepository->findSearch($data,$user);
         }if ($user instanceof Etudiant)  {     
@@ -84,11 +84,7 @@ class ArchivesController extends AbstractController
 
                ]);
        }
-        $archives->setCustomParameters([
-            'align' => 'center',
-            'size' => 'medium',
-            'rounded' => true,
-        ]);
+        
        
         return $this->render('archives/home_page.html.twig', [
             'controller_name' => 'DechetController',

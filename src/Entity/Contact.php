@@ -25,7 +25,7 @@ class Contact{
      *@Assert\Regex(
      *  pattern="/[0-9]{8}/"
      * )
-     * @var string|null
+     * @var int|null
      */
     private $phone;
 
@@ -116,7 +116,7 @@ class Contact{
     /**
      * Get )
      *
-     * @return  string|null
+     * @return  int|null
      */ 
     public function getPhone()
     {
@@ -126,7 +126,7 @@ class Contact{
     /**
      * Set )
      *
-     * @param  string|null  $phone  )
+     * @param  int|null  $phone  )
      *
      * @return  self
      */ 

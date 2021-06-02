@@ -24,6 +24,10 @@
 				{% if app.user %}
 					<li class="nav-item ml-2">
 						<a class="nav-link ml-auto {{ app.request.get('_route') in ['app_account','app_account_edit','app_account_change_password'] ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="pl-2 fas fa-user-circle"></i></a>
+					</li>
+					{% if is_granted("ROLE_ADMIN") %}{% endif %}
+					<li class="nav-item ml-2">
+						<a class="nav-link ml-auto {{ app.request.get('_route')== 'admin' ? 'active' : ''}}" href="{{path('admin')}}">EasyAdmin<i class="pl-2 fas fa-user-circle"></i></a>
 					</li>	
 					<li class="nav-item">
 						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fa fa-sign-out" aria-hidden="true"></i></a>

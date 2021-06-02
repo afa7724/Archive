@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FiliereRepository;
-use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FiliereRepository::class)
+ * @UniqueEntity(fields={"name"}, message="La filiere existe déjà ")
  */
 class Filiere
 {
@@ -40,17 +42,17 @@ class Filiere
     private $updateAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Archive::class, mappedBy="filiere")
+     * @ORM\OneToMany(targetEntity=Archive::class, mappedBy="filiere",cascade={"persist", "remove"})
      */
     private $archives;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="filieres")
+     * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="filieres",cascade={"persist", "remove"})
      */
     private $professeurs;
 
     /**
-     * @ORM\OneToMany(targetEntity=Etudiant::class, mappedBy="filiere")
+     * @ORM\OneToMany(targetEntity=Etudiant::class, mappedBy="filiere",cascade={"persist", "remove"})
      */
     private $etudiants;
 

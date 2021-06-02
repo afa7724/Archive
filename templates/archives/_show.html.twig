@@ -60,7 +60,7 @@
 							{% if app.user == archive.user %}
 								vous
 							{% else %}
-								{{[app.user.firstname ,app.user.lastname] |join(' ')}}
+								{{[archive.user.firstname ,archive.user.lastname] |join(' ')}}
 							{% endif %}
 						</span>
 

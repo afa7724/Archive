@@ -31,7 +31,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/app/user/logout", name="app_security_logout" ,methods="POST")
+     * @Route("/app/user/logout", name="app_security_logout")
      */
     public function logout()
     {

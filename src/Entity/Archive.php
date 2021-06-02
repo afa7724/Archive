@@ -19,13 +19,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Archive
 {
        
-    const TYPE = [
-        'Mini Projet' => 'Mini Projet',
+    const TYPE = [      
+        'Mini Projet' => 'Mini Proje',
         'Rapport de stage' => 'Rapport de stage',
         'Projet Tutoriel' => 'Projet Tutoriel',
         'Memoire' => 'Memoire',
-       
-    ];
+        ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -37,8 +36,12 @@ class Archive
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
+     * @Assert\File( 
+     *  maxSize= "1024k",
+     *  mimeTypes= {"application/pdf", "application/x-pdf"},
+     *  mimeTypesMessage= "Please upload a valid PDF",
+     *   )
      * @Vich\UploadableField(mapping="archive_file", fileNameProperty="rapportfilename")
-     * 
      * @var File|null
      */
     private $imageFile;
@@ -46,8 +49,12 @@ class Archive
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
+     * @Assert\File( 
+     * maxSize= "1024k", 
+     * mimeTypes= { "application/rar" , "application/x-rar" },
+     * mimeTypesMessage= "Please upload a valid RAR",
+     *  )
      * @Vich\UploadableField(mapping="archive_file_codesource", fileNameProperty="codesource")
-     * 
      * @var File|null
      */
 
@@ -328,7 +335,7 @@ class Archive
 
     public function __toString()
     {
-        return $this->title;
+        return (string)$this->getId();
     }
 
     public function getCodesource(): ?string

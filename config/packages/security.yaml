@@ -47,10 +47,10 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    # access_control:
-    #      - { path: ^/admin, roles: ROLE_ADMIN }
+    access_control:
+           - { path: ^/front/end, roles: ROLE_SUPER_ADMIN }
     #      - { path: ^/archives, roles: ROLE_USER }
     role_hierarchy:
         ROLE_ETUDIANT:   [ ROLE_USER,ROLE_DOWNLOAD_FILE]
         ROLE_PROFESSEUR: [ROLE_ETUDIANT,ROLE_NEW_ARCHIVE,ROLE_ARCHIVE_MANAGE]
-        ROLE_ADMIN: [ROLE_PROFESSEUR, ROLE_ALLOWED_TO_SWITCH,ROLE_NEW_ARCHIVE]
+        ROLE_SUPER_ADMIN: [ROLE_PROFESSEUR, ROLE_ALLOWED_TO_SWITCH,ROLE_NEW_ARCHIVE,ROLE_ADMIN ]
