@@ -9,10 +9,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 
 class EtudiantCrudController extends AbstractCrudController
 {
@@ -40,6 +41,7 @@ class EtudiantCrudController extends AbstractCrudController
             TextField::new('firstname'),
             TextField::new('lastname'),
             NumberField::new('niveau'),
+            BooleanField::new('isVerified')->onlyOnIndex(),
             TextField::new('password')->onlyOnForms()->setHelp('
             Votre mot de passe doit comporter au moins 8 caractères, 
             contenir au moins un chiffres, une lettre en masjucule et minuscule, 
