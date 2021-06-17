@@ -8,11 +8,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
@@ -33,8 +34,8 @@ class UserCrudController extends AbstractCrudController
             TextField::new('password')->onlyOnForms()->setHelp('
             Votre mot de passe doit comporter au moins 8 caractères, 
             contenir au moins un chiffres, une lettre en masjucule et minuscule, 
-            et peux contenir des symboles.'),
-            TextField::new('confirmepassword')->onlyOnForms(),
+            et peux contenir des symboles.')->setFormType(PasswordType::class),
+            TextField::new('confirmepassword')->onlyOnForms()->setFormType(PasswordType::class),
         ];
     }
     

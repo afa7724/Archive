@@ -73,7 +73,7 @@ class ArchiveType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '3M',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
@@ -96,7 +96,7 @@ class ArchiveType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '4M',
                         'mimeTypes' => [
                             'application/rar',
                             'application/x-rar',
