@@ -100,6 +100,7 @@ class ArchiveType extends AbstractType
                         'mimeTypes' => [
                             'application/rar',
                             'application/x-rar',
+                            'application/x-rar-compressed',
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un document rar valide',
                     ])

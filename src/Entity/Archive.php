@@ -39,7 +39,7 @@ class Archive
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Assert\File( 
-     *  maxSize= "1024k",
+     *  maxSize= "3M",
      *  mimeTypes= {"application/pdf", "application/x-pdf"},
      *  mimeTypesMessage= "Please upload a valid PDF",
      *   )
@@ -52,7 +52,7 @@ class Archive
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Assert\File( 
-     * maxSize= "1024k", 
+     * maxSize= "4M", 
      * mimeTypes= { "application/rar" , "application/x-rar" },
      * mimeTypesMessage= "Please upload a valid RAR",
      *  )
