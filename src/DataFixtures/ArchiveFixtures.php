@@ -63,6 +63,7 @@ class ArchiveFixtures extends Fixture
                 ->setRapportfilename(null)
                 ->setImageFile(null)
                 ->setEncadreur($faker->name())
+                ->setNiveau(rand(1,5))
                 ->setDatepromotionOn($faker->dateTimeBetween('-6 years'))
                 ->setDescription($faker->text());
                 $manager->persist($archive);

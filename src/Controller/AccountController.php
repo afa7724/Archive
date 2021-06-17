@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -54,6 +55,31 @@ class AccountController extends AbstractController
 
         
     }
+
+      /**
+     * Permet de supprime un compte 
+     * 
+     * @param Reqest $request
+     * @return Response
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @Route("/delete", name="app_account_delete",methods="delete")
+     */
+
+    public function delete( EntityManagerInterface $manager ,Request $request,TokenStorageInterface $tokenStorage): Response
+    {
+        $user = $this->getUser();
+       
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->get('_token'))) {
+            $manager->remove($user);
+            $manager->flush();
+            $this->addFlash('success', 'Compte supprimé avec succéss ');
+            $request->getSession()->invalidate();
+            $tokenStorage->setToken(); // TokenStorageInterface
+        }
+        return  $this->redirectToRoute("home");
+    }
+
+
 
     /**
      * @Route("/change-password", name="app_account_change_password", methods={"GET", "PATCH"})
