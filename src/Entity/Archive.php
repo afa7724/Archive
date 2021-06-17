@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArchiveRepository;
 use Symfony\Component\HttpFoundation\File\File;
@@ -133,6 +135,16 @@ class Archive
      * 
      */
     private $Niveau;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArchiveLike::class, mappedBy="archive")
+     */
+    private $archiveLikes;
+
+    public function __construct()
+    {
+        $this->archiveLikes = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -358,6 +370,36 @@ class Archive
     public function setNiveau(int $Niveau): self
     {
         $this->Niveau = $Niveau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArchiveLike[]
+     */
+    public function getArchiveLikes(): Collection
+    {
+        return $this->archiveLikes;
+    }
+
+    public function addArchiveLike(ArchiveLike $archiveLike): self
+    {
+        if (!$this->archiveLikes->contains($archiveLike)) {
+            $this->archiveLikes[] = $archiveLike;
+            $archiveLike->setArchive($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArchiveLike(ArchiveLike $archiveLike): self
+    {
+        if ($this->archiveLikes->removeElement($archiveLike)) {
+            // set the owning side to null (unless already changed)
+            if ($archiveLike->getArchive() === $this) {
+                $archiveLike->setArchive(null);
+            }
+        }
 
         return $this;
     }

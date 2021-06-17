@@ -49,24 +49,25 @@ class RequestListener
         $currentRoute = $event->getRequest()->attributes->get('_route');
         $token = $this->authorizationChecker->getToken();
         $user = $token ? $token->getUser() : null;
-        
-        if ($user instanceof Etudiant || $user instanceof Professeur) {
+
+        if ($user) {
+
+
+
             $active =  $user->isVerified();
-            
+
             // $role2 = in_array('ROLE_BLOQUE', $user->getRoles());
             // Redirige vers soit le deconnecte activation force 
             if (!$active && !$this->isAuthenticatedUser($currentRoute)) {
-               
+
                 $event->setResponse(new RedirectResponse($this->router->generate('app_registration_check_email')));
             }
             //Rediger vers le home si deja active
-             if ($active && $this->isConnectUser($currentRoute) ) {
-               
+            if ($active && $this->isConnectUser($currentRoute)) {
+
                 $event->setResponse(new RedirectResponse($this->router->generate('app_archives_home_page')));
             }
-            
-        }    
-        
+        }
     }
 
     private function isAuthenticatedUser($currentRoute)
@@ -77,12 +78,12 @@ class RequestListener
         );
     }
 
-    
+
     private function isConnectUser($currentRoute)
     {
         return in_array(
             $currentRoute,
-            ['app_register', 'app_verify_email', 'app_registration_check_email','app_security_login','home']
+            ['app_register', 'app_verify_email', 'app_registration_check_email', 'app_security_login', 'home']
         );
     }
 }

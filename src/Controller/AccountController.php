@@ -39,11 +39,11 @@ class AccountController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        dd($user);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            $this->addFlash('success', 'Account updated successfully!');
+            $this->addFlash('success', 'Compte mis à jour avec succès !');
 
             return $this->redirectToRoute('app_account');
         }
@@ -51,6 +51,8 @@ class AccountController extends AbstractController
         return $this->render('account/edit.html.twig', [
             'form' => $form->createView()
         ]);
+
+        
     }
 
     /**

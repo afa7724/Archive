@@ -1,19 +1,39 @@
 {% extends 'layouts/base.html.twig' %}
 
+
+{% block css %}
+	
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Numans');
+	html,body{
+	background-image: url("{{asset('/images/email_ss_1920.png')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+	font-family: 'Numans', sans-serif;
+	}
+
+   
+</style>
+{% endblock %}
+
+
+
+
 {% block title %}E-mail d'activation envoyé{% endblock %}
 
 {% block body %}
     
-    <div class="row">
-        <div class="col-md-12  text-center text-muted">
+    <div class="d-inline-flex  justify-content-center align-items-center vh-100 badge badge-primary text-wrap text-danger">
+        
         
 
-            <p>
+            <h5>
             Un e-mail a été envoyé contenant un lien sur lequel vous pouvez cliquer pour active votre compte.
             
-            </p>
-            <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam .</p>
+            
+           Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier <span class="font-weight-bold"> spam <span>.</h6>
         
-        </div>
+        
     </div>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\EtudiantRepository;
@@ -29,6 +31,17 @@ class Etudiant extends User
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArchiveLike::class, mappedBy="user")
+     */
+    private $likes;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->likes = new ArrayCollection();
+    }
 
   
 
@@ -67,6 +80,36 @@ class Etudiant extends User
     public function setFiliere(?Filiere $filiere): self
     {
         $this->filiere = $filiere;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArchiveLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(ArchiveLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(ArchiveLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
 
         return $this;
     }
