@@ -11,12 +11,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EtudiantCrudController extends AbstractCrudController
 {
+
+   
     public static function getEntityFqcn(): string
     {
         return Etudiant::class;
@@ -40,16 +45,17 @@ class EtudiantCrudController extends AbstractCrudController
             EmailField::new('email'),
             TextField::new('firstname'),
             TextField::new('lastname'),
-            NumberField::new('niveau'),
+            IntegerField::new('niveau'),
             BooleanField::new('isVerified')->onlyOnIndex(),
             TextField::new('password')->onlyOnForms()->setHelp('
             Votre mot de passe doit comporter au moins 8 caractères, 
             contenir au moins un chiffres, une lettre en masjucule et minuscule, 
-            et peux contenir des symboles.'),
-            TextField::new('confirmepassword')->onlyOnForms(),
-            AssociationField::new('filieres')->onlyOnForms(),
+            et peux contenir des symboles.')->setFormType(PasswordType::class),
+            TextField::new('confirmepassword')->onlyOnForms()->setFormType(PasswordType::class),
+            AssociationField::new('filiere')->onlyOnForms(),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('updatedAt')->onlyOnDetail(),
+            
         ];
     }
 
@@ -72,5 +78,6 @@ class EtudiantCrudController extends AbstractCrudController
                 return $action->setIcon("fa fa-trash")->addCssClass('btn btn-outline-danger');
             });;
     }
+
 
 }

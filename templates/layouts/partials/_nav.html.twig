@@ -1,14 +1,14 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4" aria-label="Third navbar example">
-	<div class="container">
-	{% if app.user %}
-	
-		<a class="navbar-brand" href="{{path('app_archives_home_page')}}">Archives<i class="pl-2 fas fa-home"></i></a>
-	{% else %}
-		<a class="navbar-brand" href="{{path('home')}}">Archives<i class="pl-2 fas fa-home"></i></a>
-	{% endif %} 
+	<div class="container-fluid">
+		{% if app.user %}
+		
+			<a class="navbar-brand" href="{{path('app_archives_home_page')}}">Archives<i class="ps-2 fas fa-home"></i></a>
+		{% else %}
+			<a class="navbar-brand" href="{{path('home')}}">Archives<i class="ps-2 fas fa-home"></i></a>
+		{% endif %} 
 		<button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-    		<span class="navbar-toggler-icon"></span>
-  		</button>
+			<span class="navbar-toggler-icon"></span>
+		</button>
 		
 
 		<div class="collapse navbar-collapse justify-content-center" id="navbarsExample03 ">
@@ -16,28 +16,28 @@
 				
 				
 				<li class="nav-item {{ app.request.get('_route')== 'contact' ? 'active' : ''}}">
-						<a class="nav-link" href="{{path('contact')}}">Contact<i class="pl-2 fa fa-address-book" aria-hidden="true"></i></a>
+						<a class="nav-link" href="{{path('contact')}}">Contact<i class="ps-2 fa fa-address-book" aria-hidden="true"></i></a>
 				</li>
 				<li class="nav-item {{ app.request.get('_route')== 'apropos' ? 'active' : ''}}">
-						<a class="nav-link" href="{{path('apropos')}}">A propos <i class="pl-2 fa fa-info-circle" aria-hidden="true"></i></a>
+						<a class="nav-link" href="{{path('apropos')}}">A propos <i class="ps-2 fa fa-info-circle" aria-hidden="true"></i></a>
 				</li>
 				{% if app.user %}
 					<li class="nav-item ml-2">
-						<a class="nav-link ml-auto {{ app.request.get('_route') in ['app_account','app_account_edit','app_account_change_password'] ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="pl-2 fas fa-user-circle"></i></a>
+						<a class="nav-link ml-auto {{ app.request.get('_route') in ['app_account','app_account_edit','app_account_change_password'] ? 'active' : ''}}" href="{{path('app_account')}}">Compte<i class="ps-2 fas fa-user-circle"></i></a>
 					</li>
 					{% if is_granted("ROLE_ADMIN") %}
 					
 					<li class="nav-item ml-2">
-						<a class="nav-link ml-auto {{ app.request.get('_route')== 'admin' ? 'active' : ''}}" href="{{path('admin')}}">EasyAdmin<i class="pl-2 fas fa-user-circle"></i></a>
+						<a class="nav-link ml-auto {{ app.request.get('_route')== 'admin' ? 'active' : ''}}" href="{{path('admin')}}">EasyAdmin<i class="ps-2 fas fa-user-circle"></i></a>
 					</li>	
 					{% endif %}
 					<li class="nav-item">
-						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="pl-2 fa fa-sign-out" aria-hidden="true"></i></a>
+						<a class="nav-link " href="#" onclick="event.preventDefault();document.getElementById('js-logout-form').submit()">Se déconnecter<i class="ps-2 fa fa-sign-out" aria-hidden="true"></i></a>
 					</li>
 					
 					{% if is_granted("ROLE_NEW_ARCHIVE") %}
 						<li class="nav-item {{ app.request.get('_route')== 'app_archives_new' ? 'active' : ''}}">
-							<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive <i class="pl-2 fa fa-plus" aria-hidden="true"></i></a>
+							<a class="nav-link" href="{{path('app_archives_new')}}">Nouvelle archive <i class="ps-2 fa fa-plus" aria-hidden="true"></i></a>
 						</li>
 					{% endif %}
 					<form id="js-logout-form" action="{{path('app_security_logout')}}" method="POST">
@@ -57,18 +57,9 @@
 					
 					
 				{% endif %}
-				{# <li class="nav-item dropdown">
-				            <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-				            <ul class="dropdown-menu" aria-labelledby="dropdown03">
-				              <li><a class="dropdown-item" href="#">Action</a></li>
-				              <li><a class="dropdown-item" href="#">Another action</a></li>
-				              <li><a class="dropdown-item" href="#">Something else here</a></li>
-				            </ul>
-				          </li> #}
+				
 			</ul>
-			{# <form>
-			          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-			        </form> #}
+			
 		</div>
 	</div>
 </nav>

@@ -9,7 +9,12 @@
             {% if not is_granted('ROLE_PROFESSEUR') %}
                 Etudent 
              {% else %}
+             {% if is_granted('ROLE_ADMIN') %}
+             Administrateur
+             {% else %}
+                 
               Professeur
+             {% endif %}
              {% endif %}
             </h1>
 
@@ -18,11 +23,14 @@
             <p class="mt-5 lead"><i class="pr-2 fa fa-envelope" aria-hidden="true"></i> {{ app.user.email }}</p>
             {# {% if  is defined app.user.filiere %} #}
             
-                {% if is_granted('ROLE_PROFESSEUR') %}
-                    <p class="mt-2 lead"><i class="fas fa-chalkboard-teacher"></i> {{ app.user.filieres|join(' | ') }}</p>
-                {% else %}
-                    <p class="mt-2 lead"><i class="fas fa-chalkboard-teacher"></i> {{ app.user.filiere }}-{{app.user.niveau}}</p>
-                    
+                {% if app.user.filieres is defined  or  app.user.filiere is defined  %}
+                
+                    {% if is_granted('ROLE_PROFESSEUR') %}
+                        <p class="mt-2 lead"><i class="fas fa-chalkboard-teacher"></i> {{ app.user.filieres|join(' | ') }}</p>
+                    {% else %}
+                        <p class="mt-2 lead"><i class="fas fa-chalkboard-teacher"></i> {{ app.user.filiere }}-{{app.user.niveau}}</p>
+                        
+                    {% endif %}
                 {% endif %}
             {# {% endif %} #}
             <hr>

@@ -77,8 +77,8 @@ class ArchivesController extends AbstractController
        {  
            return new JsonResponse([
                'content' => $this->renderView('archives/_archive.html.twig',['archives' => $archives]),
-               'sorting' => $this->renderView('home/_sorting.html.twig',['archives' => $archives]),
-               'pagination' => $this->renderView('home/_pagination.html.twig',['archives' => $archives]),
+               'sorting' => $this->renderView('archives/_sorting.html.twig',['archives' => $archives]),
+               'pagination' => $this->renderView('archives/_pagination.html.twig',['archives' => $archives]),
                'pages'  => ceil($archives->getTotalItemCount()/$archives->getItemNumberPerPage()),
                
 
