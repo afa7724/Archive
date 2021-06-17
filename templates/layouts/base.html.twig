@@ -70,7 +70,9 @@
 	<body>
 
 		{% include "layouts/partials/_flashes.html.twig" %}
+		{% if not is_granted('ROLE_SUPER_ADMIN') %}
 		{% include "layouts/partials/_nav.html.twig" %}
+		{% endif %}
 		<main role="main" class="container"> {% block body %}{% endblock %}
 			</main>
 
@@ -89,8 +91,10 @@ $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
 			<script src="{{ asset('js/app.js') }}"></script>
 			{# {{ encore_entry_script_tags('app') }} #}
 			{% block javascripts %}{% endblock %}
+			{% if not is_granted('ROLE_SUPER_ADMIN') %}
 			{% block footer %}
 				{% include "layouts/partials/_footer.html.twig" %}
 			{% endblock %}
+			{% endif %}
 		</body>
 	</html>
