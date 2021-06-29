@@ -49,12 +49,13 @@
             <p>
                 <a href="{{ path('app_account_edit') }}">Modifier le compte</a> | 
                 <a href="{{ path('app_account_change_password') }}">Changer le mot de passe</a>  
-                
-                <form method="post" action="{{path('app_account_delete')}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
-							<input type="hidden" name="_method" value="DELETE">
-							<input type="hidden" name="_token" value="{{ csrf_token('delete'~ app.user.id)}}">
-							<button class="mx-4 card-link text-monospace btn btn-outline-danger">Supprimer</button>
-				</form>
+                {% if not is_granted('ROLE_PROFESSEUR') %}
+                    <form method="post" action="{{path('app_account_delete')}}" style="display:inline-block" onsubmit="return confirm('Etes-vous vraiment sur ?')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete'~ app.user.id)}}">
+                                <button class="mx-4 card-link text-monospace btn btn-outline-danger">Supprimer</button>
+                    </form>
+                {% endif %}
             </p>
         </div>
     </div>
