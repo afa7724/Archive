@@ -31,7 +31,7 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email'),
             TextField::new('firstname'),
             TextField::new('lastname'),
-            TextField::new('password')->onlyOnForms()->setHelp('
+            TextField::new('password')->hideOnIndex()->setHelp('
             Votre mot de passe doit comporter au moins 8 caractères, 
             contenir au moins un chiffres, une lettre en masjucule et minuscule, 
             et peux contenir des symboles.')->setFormType(PasswordType::class),
