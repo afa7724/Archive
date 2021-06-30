@@ -1,177 +1,177 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %}A propos{% endblock %}
+{% block title %}A propos
+{% endblock %}
 
 {% block css %}
-<style>
-/* body {  background-image: url("{{ asset('/images/bac2.jpg') }}"); }
+	<style>
+		/* body {  background-image: url("{{ asset('/images/bac2.jpg') }}"); }
 *{
   margin:0;
   padding:0;
 } */
 
-.containe{  padding-top: 20px;
-  padding-bottom: 40px;}
-/* body {
+		.containe {
+			padding-top: 20px;
+			padding-bottom: 40px;
+		}
+		/* body {
   background-color: #111845;
 } */
 
-.background-img{
-  height: 620px;
-  width: 1000px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 2% auto;
-  padding:20px;
-  
-  position: relative;
-}
+		.background-img {
+			height: 620px;
+			width: 1000px;
+			background-repeat: no-repeat;
+			background-size: cover;
+			margin: 2% auto;
+			padding: 20px;
 
-.content h2{ font-size:19px;}
+			position: relative;
+		}
 
-.box{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 600px;
-  background: #111845a6;
-  box-sizing: border-box;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgb(23, 32, 90);
-  border: 2px solid #80A200;
-  color: white;
-  padding: 20px;
-}
+		.content h2 {
+			font-size: 19px;
+		}
 
-.box:before{
-  content: '';
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:100%;
-  height:100%;
-  background: rgba(255,255,255,0.1);
-  transition:0.5s;
-  pointer-events: none;
-}
+		.box {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 700px;
+			height: 600px;
+			background: #111845a6;
+			box-sizing: border-box;
+			overflow: hidden;
+			box-shadow: 0 20px 50px rgb(23, 32, 90);
+			border: 2px solid #80A200;
+			color: white;
+			padding: 20px;
+		}
 
-.box:hover:before{
-  left:-50%;
-  transform: skewX(-5deg);
-}
+		.box:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: rgba(255, 255, 255, 0.1);
+			transition: 0.5s;
+			pointer-events: none;
+		}
+
+		.box:hover:before {
+			left: -50%;
+			transform: skewX(-5deg);
+		}
 
 
-.box .content{
-  position:absolute;
-  top:15px;
-  left:15px;
-  right:15px;
-  bottom:15px;
-  border:1px solid #f0a591;
-  padding:20px;
-  text-align:center;
-  box-shadow: 0 5px 10px rgba(9,0,0,0.5);
-  
-}
+		.box .content {
+			position: absolute;
+			top: 15px;
+			left: 15px;
+			right: 15px;
+			bottom: 15px;
+			border: 1px solid #f0a591;
+			padding: 20px;
+			text-align: center;
+			box-shadow: 0 5px 10px rgba(9, 0, 0, 0.5);
 
-.box span{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-  
-}
+		}
 
-.box span:nth-child(1)
-{
-  transform:rotate(0deg);
-}
+		.box span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			box-sizing: border-box;
 
-.box span:nth-child(2)
-{
-  transform:rotate(90deg);
-}
+		}
 
-.box span:nth-child(3)
-{
-  transform:rotate(180deg);
-}
+		.box span:nth-child(1) {
+			transform: rotate(0deg);
+		}
 
-.box span:nth-child(4)
-{
-  transform:rotate(270deg);
-}
+		.box span:nth-child(2) {
+			transform: rotate(90deg);
+		}
 
-.box span:before
-{
-  content: '';
-  position: absolute;
-  width:100%;
-  height: 2px;
-  background: #B6FF00;
-  animation: animate 4s linear infinite;
-}
+		.box span:nth-child(3) {
+			transform: rotate(180deg);
+		}
 
-@keyframes animate {
-  0% {
-  transform:scaleX(0);
-  transform-origin: left;
-  }
-  50%
-  {
-    transform:scaleX(1);
-  transform-origin: left;
-  }
-  50.1%
-  {
-    transform:scaleX(1);
-  transform-origin: right;
-    
-  }
-  
-  100%
-  {
-    transform:scaleX(0);
-  transform-origin: right;
-    
-  }
-  
-  
-} 
-</style>
+		.box span:nth-child(4) {
+			transform: rotate(270deg);
+		}
+
+		.box span:before {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 2px;
+			background: #B6FF00;
+			animation: animate 4s linear infinite;
+		}
+
+		@keyframes animate {
+			0% {
+				transform: scaleX(0);
+				transform-origin: left;
+			}
+			50% {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
+			50.1% {
+				transform: scaleX(1);
+				transform-origin: right;
+
+			}
+
+			100% {
+				transform: scaleX(0);
+				transform-origin: right;
+
+			}
+
+
+		}
+
+	</style>
 
 
 {% endblock %}
 {% block body %}
 
-<section>
-  <div class="containe col-md-12 col-sm-12 col-lg-12" style="">
-    <div class="background-img">
-      
-      <div class="box">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+	<section>
+		<div class="containe col-md-12 col-sm-12 col-lg-12" style="">
+			<div class="background-img">
 
-        <div class="content" style="padding-top:50px;">
-          <h2>Entreprise Collecte de dechets </h2>
-          <p>Le site web ECD a pour but de regroupes les dechets recycable de Djibouti ville est vendre en ligne </p>
-          <p>Cette site a ete develloper par des etudiants De l'Universite de Djibouti</p>
-          <p>Encadre par Madame HAWA ALI OMAR </p>
-        </div>
-        
-      </div>
+				<div class="box">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
 
-      
-    </div>
-  </div>
-</section>
+					<div class="content" style="padding-top:50px;">
+						<h2>Gestion des archive de projet tutoriel
+						</h2>
+						<p class="mt-4">Le monde de l'archivage peut être un environnement complique et impitoyable. </p>
+							  <p> Notre mission est de mettre au disposition des organisations publique ou prive 
+							                           un ensemble des outils efficace pour facilite la gestion des archive et ainsi dimunie
+							                           largement les temps et l'argents perdu lors de la rechercher d'une archive.</p>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+	</section>
 
 
 {% endblock %}

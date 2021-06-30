@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -14,7 +15,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProfesseurCrudController extends AbstractCrudController
 {
@@ -34,13 +37,19 @@ class ProfesseurCrudController extends AbstractCrudController
             TextField::new('password')->onlyOnForms()->setHelp('
             Votre mot de passe doit comporter au moins 8 caractères, 
             contenir au moins un chiffres, une lettre en masjucule et minuscule, 
-            et peux contenir des symboles.'),
-            TextField::new('confirmepassword')->onlyOnForms(),
+            et peux contenir des symboles.')->setFormType(PasswordType::class),
+            TextField::new('confirmepassword')->onlyOnForms()->setFormType(PasswordType::class),
             AssociationField::new('filieres')->onlyOnForms(),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('updatedAt')->onlyOnDetail(),
 
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters->add('lastname')
+            ->add('email');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -65,8 +74,9 @@ class ProfesseurCrudController extends AbstractCrudController
 
     public function createEntity(string $entityFqcn)
     {
-
+        
         $professeur = new Professeur();
+        
         $professeur->setRoles(["ROLE_PROFESSEUR"]);
 
         return $professeur;
